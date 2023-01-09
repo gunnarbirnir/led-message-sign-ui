@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { FC } from "react";
+import styled from "styled-components";
+import { LEDMessageSign } from "led-message-sign";
 
-function App() {
+const App: FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <LEDMessageSign
+        text="LED Message Sign"
+        // height={200}
+        // width={1000}
+        // fullWidth
+        // colorHue={180}
+        // multiColor
+        // hideFrame
+        // animationFramesPerUpdate={20}
+      />
+    </Container>
   );
-}
+};
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: 100vh;
+  width: 100vw;
+  background-color: hsl(0deg 0% 0%);
+  color: hsl(0deg 0% 100%);
+`;
 
 export default App;
