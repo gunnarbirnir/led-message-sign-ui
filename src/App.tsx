@@ -1,6 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
-import { LEDMessageSign } from "led-message-sign";
+import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
 
 const App: FC = () => {
   return (
