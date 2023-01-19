@@ -5,14 +5,19 @@ import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
 const DEFAULT_TEXT = "LED Message Sign";
 
 const App: FC = () => {
-  const messageText = useMemo(() => {
+  const { text, colorHue } = useMemo(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const initText = urlParams.get("text");
+    const textParam = urlParams.get("text");
+    const hueParam = urlParams.get("hue");
+    const hueNum = parseInt(hueParam || "0");
 
-    return initText ? decodeURIComponent(initText) : DEFAULT_TEXT;
+    const text = textParam ? decodeURIComponent(textParam) : DEFAULT_TEXT;
+    const colorHue = isNaN(hueNum) ? 0 : hueNum;
+
+    return { text, colorHue };
   }, []);
 
-  if (!messageText) {
+  if (!text) {
     return null;
   }
 
@@ -20,15 +25,14 @@ const App: FC = () => {
     <Container>
       <InnerContainer>
         <LEDMessageSign
-          text={messageText}
-          height={180}
-          // width={1000}
+          text={text}
+          // height={50}
+          // width={500}
           fullWidth
-          // colorHue={180}
-          multiColor
+          colorHue={colorHue}
           // hideFrame
           // coloredOffLights={false}
-          // animationFramesPerUpdate={20}
+          // animationFramesPerUpdate={1}
         />
       </InnerContainer>
     </Container>
