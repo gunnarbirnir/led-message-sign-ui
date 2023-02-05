@@ -1,10 +1,14 @@
-import React, { FC, useMemo } from "react";
+import React, { FC, useMemo, useState } from "react";
 import styled from "styled-components";
 import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
+
+import { Menu, MenuButton } from "./components";
 
 const DEFAULT_TEXT = "LED Message Sign";
 
 const App: FC = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const { text, colorHue } = useMemo(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const textParam = urlParams.get("text");
@@ -22,34 +26,51 @@ const App: FC = () => {
   }
 
   return (
-    <Container>
-      <InnerContainer>
-        <LEDMessageSign
-          text={text}
-          // height={50}
-          // width={500}
-          fullWidth
+    <AppContainer>
+      <MainContent>
+        <LEDContainer>
+          <LEDMessageSign
+            text={text}
+            // height={50}
+            // width={500}
+            fullWidth
+            colorHue={colorHue}
+            // hideFrame
+            // coloredOffLights={false}
+            // updatesPerSecond={1}
+          />
+        </LEDContainer>
+        <MenuButton
+          menuOpen={menuOpen}
           colorHue={colorHue}
-          // hideFrame
-          // coloredOffLights={false}
-          // animationFramesPerUpdate={1}
+          setMenuOpen={setMenuOpen}
         />
-      </InnerContainer>
-    </Container>
+      </MainContent>
+      <Menu menuOpen={menuOpen} />
+    </AppContainer>
   );
 };
 
-const Container = styled.div`
+const AppContainer = styled.div`
+  height: 100vh;
+  width: 100vw;
+  background-color: hsl(0deg 0% 0%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`;
+
+const MainContent = styled.main`
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100vw;
-  background-color: hsl(0deg 0% 0%);
+  position: relative;
+  min-height: 300px;
 `;
 
-const InnerContainer = styled.div`
+const LEDContainer = styled.div`
   width: 100%;
   max-width: 1000px;
 `;
