@@ -1,5 +1,7 @@
-import React, { FC, useMemo, useState } from "react";
+import React, { FC, useMemo, useState, useCallback } from "react";
 import styled from "styled-components";
+// TODO: Debounce sign text update
+// import { debounce } from "debounce";
 import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
 
 import { Menu, MenuButton } from "./components";
@@ -8,22 +10,28 @@ const DEFAULT_TEXT = "LED Message Sign";
 
 const App: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [text, setText] = useState("");
 
-  const { text, colorHue } = useMemo(() => {
+  const { colorHue } = useMemo(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const textParam = urlParams.get("text");
     const hueParam = urlParams.get("hue");
     const hueNum = parseInt(hueParam || "0");
 
-    const text = textParam ? decodeURIComponent(textParam) : DEFAULT_TEXT;
+    const initText = textParam ? decodeURIComponent(textParam) : DEFAULT_TEXT;
     const colorHue = isNaN(hueNum) ? 0 : hueNum;
 
-    return { text, colorHue };
+    setText(initText);
+
+    return { colorHue };
   }, []);
 
-  if (!text) {
-    return null;
-  }
+  const handleSetText = useCallback((updatedText: string) => {
+    setText(updatedText);
+    const url = new URL(window.location.href);
+    url.searchParams.set("text", encodeURIComponent(updatedText.toLowerCase()));
+    window.history.replaceState({}, "", url);
+  }, []);
 
   return (
     <AppContainer>
@@ -46,7 +54,12 @@ const App: FC = () => {
           setMenuOpen={setMenuOpen}
         />
       </MainContent>
-      <Menu menuOpen={menuOpen} />
+      <Menu
+        menuOpen={menuOpen}
+        colorHue={colorHue}
+        text={text}
+        setText={handleSetText}
+      />
     </AppContainer>
   );
 };
