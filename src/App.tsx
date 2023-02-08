@@ -1,7 +1,6 @@
 import React, { FC, useMemo, useState, useCallback } from "react";
 import styled from "styled-components";
-// TODO: Debounce sign text update
-// import { debounce } from "debounce";
+import { debounce } from "debounce";
 import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
 
 import { Menu, MenuButton } from "./components";
@@ -10,35 +9,51 @@ const DEFAULT_TEXT = "LED Message Sign";
 
 const App: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [text, setText] = useState("");
+  const [textInput, setTextInput] = useState("");
+  const [signText, setSignText] = useState("");
 
   const { colorHue } = useMemo(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const textParam = urlParams.get("text");
     const hueParam = urlParams.get("hue");
     const hueNum = parseInt(hueParam || "0");
-
     const initText = textParam ? decodeURIComponent(textParam) : DEFAULT_TEXT;
     const colorHue = isNaN(hueNum) ? 0 : hueNum;
 
-    setText(initText);
-
+    setSignText(initText);
+    setTextInput(initText);
     return { colorHue };
   }, []);
 
-  const handleSetText = useCallback((updatedText: string) => {
-    setText(updatedText);
-    const url = new URL(window.location.href);
-    url.searchParams.set("text", encodeURIComponent(updatedText.toLowerCase()));
-    window.history.replaceState({}, "", url);
-  }, []);
+  const updateSignText = useMemo(
+    () =>
+      debounce((text: string) => {
+        setSignText(text);
+        const url = new URL(window.location.href);
+        if (text) {
+          url.searchParams.set("text", encodeURIComponent(text.toLowerCase()));
+        } else {
+          url.searchParams.delete("text");
+        }
+        window.history.replaceState({}, "", url);
+      }, 500),
+    []
+  );
+
+  const updateTextInput = useCallback(
+    (text: string) => {
+      setTextInput(text);
+      updateSignText(text);
+    },
+    [updateSignText]
+  );
 
   return (
     <AppContainer>
       <MainContent>
         <LEDContainer>
           <LEDMessageSign
-            text={text}
+            text={signText}
             // height={50}
             // width={500}
             fullWidth
@@ -55,10 +70,10 @@ const App: FC = () => {
         />
       </MainContent>
       <Menu
+        text={textInput}
         menuOpen={menuOpen}
         colorHue={colorHue}
-        text={text}
-        setText={handleSetText}
+        setText={updateTextInput}
       />
     </AppContainer>
   );

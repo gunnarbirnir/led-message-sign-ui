@@ -1,16 +1,30 @@
-import React, { FC } from "react";
+import React, { FC, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 interface IProps {
   value: string;
   colorHue: number;
+  menuOpen: boolean;
   onChange: (val: string) => void;
 }
 
-const TextArea: FC<IProps> = ({ value, colorHue, onChange }) => {
+const TextArea: FC<IProps> = ({ value, colorHue, menuOpen, onChange }) => {
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    if (menuOpen && textAreaRef?.current) {
+      const tempVal = textAreaRef.current.value;
+      textAreaRef.current.value = "";
+      textAreaRef.current.focus();
+      // To place cursor at end of text
+      textAreaRef.current.value = tempVal;
+    }
+  }, [menuOpen]);
+
   return (
     <StyledTextArea
       value={value}
+      ref={textAreaRef}
       colorHue={colorHue}
       spellCheck="false"
       onChange={(e) => onChange(e.target.value)}

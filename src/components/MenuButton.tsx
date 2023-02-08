@@ -40,7 +40,7 @@ const StyledMenuButton = styled.button<{ colorHue: number }>`
   border: none;
   outline: 0;
   user-select: none;
-  transition: transform 200ms ease-out;
+  transition: bottom 200ms ease-out;
   background-color: ${({ colorHue }) => `hsl(${colorHue}deg 100% 60%)`};
 
   &:hover {
@@ -52,7 +52,8 @@ const StyledMenuButton = styled.button<{ colorHue: number }>`
     background-color: ${({ colorHue }) => `hsl(${colorHue}deg 100% 55%)`};
   }
   &.menu-button-open {
-    transform: translateY(100px);
+    /* Button size + menu padding + menu border */
+    bottom: -62px;
   }
 
   svg {
