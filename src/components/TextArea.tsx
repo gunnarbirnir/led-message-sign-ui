@@ -12,13 +12,28 @@ const TextArea: FC<IProps> = ({ value, colorHue, menuOpen, onChange }) => {
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
-    if (menuOpen && textAreaRef?.current) {
-      const tempVal = textAreaRef.current.value;
-      textAreaRef.current.value = "";
-      textAreaRef.current.focus();
-      // To place cursor at end of text
-      textAreaRef.current.value = tempVal;
+    let focusTimeout: NodeJS.Timeout | null = null;
+    const clearFocusTimeout = () => {
+      if (focusTimeout) {
+        clearTimeout(focusTimeout);
+      }
+    };
+
+    if (menuOpen) {
+      clearFocusTimeout();
+      focusTimeout = setTimeout(() => {
+        if (textAreaRef?.current) {
+          const tempVal = textAreaRef.current.value;
+          textAreaRef.current.value = "";
+          textAreaRef.current.focus();
+          // To place cursor at end of text
+          textAreaRef.current.value = tempVal;
+        }
+        // TODO: Create constant
+      }, 200);
     }
+
+    return clearFocusTimeout;
   }, [menuOpen]);
 
   return (
