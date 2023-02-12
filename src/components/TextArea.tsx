@@ -14,6 +14,8 @@ const TextArea: FC<IProps> = ({ value, menuOpen, onChange }) => {
     () =>
       ({
         "--text-area-height": "150px",
+        "--text-area-focus-lightness": "60%",
+        "--text-area-selection-lightness": "60%",
       } as CSSProperties),
     []
   );
@@ -62,12 +64,12 @@ const StyledTextArea = styled.textarea`
   color: var(--white);
 
   &:focus {
-    border-color: hsl(var(--color-hue) 80% 60%);
+    border-color: hsl(var(--color-hue) 100% var(--text-area-focus-lightness));
   }
 
   &::selection {
     color: var(--black);
-    background: hsl(var(--color-hue) 100% 60%);
+    background: hsl(var(--color-hue) 100% var(--text-area-selection-lightness));
   }
 `;
 

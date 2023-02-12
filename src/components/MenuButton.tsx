@@ -16,6 +16,8 @@ const MenuButton: FC<IProps> = ({ menuOpen, setMenuOpen }) => {
         "--menu-button-size": "40px",
         "--settings-icon-size": "25px",
         "--close-icon-size": "20px",
+        "--menu-button-lightness": "60%",
+        "--menu-button-active-lightness": "65%",
       } as CSSProperties),
     []
   );
@@ -45,15 +47,19 @@ const StyledMenuButton = styled.button`
   transition-property: bottom;
   transition-duration: var(--menu-transition-duration);
   transition-timing-function: var(--menu-transition-timing-function);
-  background-color: hsl(var(--color-hue) 100% 60%);
+  background-color: hsl(var(--color-hue) 100% var(--menu-button-lightness));
 
   &:hover {
     transform: scale(1.05);
-    background-color: hsl(var(--color-hue) 100% 55%);
+    background-color: hsl(
+      var(--color-hue) 100% var(--menu-button-active-lightness)
+    );
   }
   &:active {
     transform: scale(0.95);
-    background-color: hsl(var(--color-hue) 100% 55%);
+    background-color: hsl(
+      var(--color-hue) 100% var(--menu-button-active-lightness)
+    );
   }
   &.menu-button-open {
     bottom: calc(
