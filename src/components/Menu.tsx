@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo, CSSProperties } from "react";
 import styled from "styled-components";
 import cn from "classnames";
 
@@ -6,22 +6,26 @@ import TextArea from "./TextArea";
 
 interface IProps {
   menuOpen: boolean;
-  colorHue: number;
   text: string;
   setText: (text: string) => void;
 }
 
-const Menu: FC<IProps> = ({ menuOpen, colorHue, text, setText }) => {
+const Menu: FC<IProps> = ({ menuOpen, text, setText }) => {
+  const cssVariables = useMemo(
+    () =>
+      ({
+        "--menu-height": "300px",
+        "--menu-content-max-width": "1000px",
+        "--menu-background-color": "hsl(0deg 0% 3%)",
+      } as CSSProperties),
+    []
+  );
+
   return (
-    <StyledMenu className={cn({ "menu-open": menuOpen })}>
-      <MenuContainer>
-        <MenuContent>
-          <TextArea
-            value={text}
-            colorHue={colorHue}
-            onChange={setText}
-            menuOpen={menuOpen}
-          />
+    <StyledMenu className={cn({ "menu-open": menuOpen })} style={cssVariables}>
+      <MenuContainer className="h-100 d-f jc-c">
+        <MenuContent className="w-100">
+          <TextArea value={text} onChange={setText} menuOpen={menuOpen} />
         </MenuContent>
       </MenuContainer>
     </StyledMenu>
@@ -31,26 +35,25 @@ const Menu: FC<IProps> = ({ menuOpen, colorHue, text, setText }) => {
 const StyledMenu = styled.div`
   z-index: 0;
   height: 0px;
-  transition: height 200ms ease-out, padding 200ms ease-out;
+  transition-property: height, padding;
+  transition-duration: var(--menu-transition-duration);
+  transition-timing-function: var(--menu-transition-timing-function);
+
   &.menu-open {
-    height: 300px;
+    height: var(--menu-height);
   }
 `;
 
 const MenuContainer = styled.div`
-  height: 100%;
-  background-color: hsl(0deg 0% 3%);
-  border-top: 2px solid hsl(0deg 0% 20%);
+  background-color: var(--menu-background-color);
+  border-top: var(--border-width) solid var(--border-color);
   overflow-y: scroll;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  padding-bottom: 40px;
+  padding: var(--padding-3);
+  padding-bottom: var(--padding-4);
 `;
 
 const MenuContent = styled.div`
-  width: 100%;
-  max-width: 1000px;
+  max-width: var(--menu-content-max-width);
 `;
 
 export default Menu;

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo, CSSProperties } from "react";
 import styled from "styled-components";
 import cn from "classnames";
 
@@ -6,75 +6,76 @@ import { SettingsIcon, CloseIcon } from "../icons";
 
 interface IProps {
   menuOpen: boolean;
-  colorHue: number;
   setMenuOpen: (open: boolean) => void;
 }
 
-const BUTTON_SIZE = 40;
-const SETTINGS_ICON_SIZE = 25;
-const CLOSE_ICON_SIZE = 20;
+const MenuButton: FC<IProps> = ({ menuOpen, setMenuOpen }) => {
+  const cssVariables = useMemo(
+    () =>
+      ({
+        "--menu-button-size": "40px",
+        "--settings-icon-size": "25px",
+        "--close-icon-size": "20px",
+      } as CSSProperties),
+    []
+  );
 
-const MenuButton: FC<IProps> = ({ menuOpen, colorHue, setMenuOpen }) => {
   return (
     <StyledMenuButton
-      colorHue={colorHue}
       onClick={() => setMenuOpen(!menuOpen)}
-      className={cn({ "menu-button-open": menuOpen })}
+      className={cn("pos-a", { "menu-button-open": menuOpen })}
+      style={cssVariables}
     >
-      {menuOpen ? <StyledCloseIcon /> : <StyledSettingsIcon />}
+      {menuOpen ? (
+        <StyledCloseIcon className="pos-a" />
+      ) : (
+        <StyledSettingsIcon className="pos-a" />
+      )}
     </StyledMenuButton>
   );
 };
 
-const StyledMenuButton = styled.button<{ colorHue: number }>`
+const StyledMenuButton = styled.button`
   z-index: 1000;
-  position: absolute;
-  right: 40px;
-  bottom: 40px;
-  height: ${BUTTON_SIZE}px;
-  width: ${BUTTON_SIZE}px;
-  border-radius: ${BUTTON_SIZE / 2}px;
-  padding: 0px;
-  margin: 0px;
-  cursor: pointer;
-  border: none;
-  outline: 0;
-  user-select: none;
-  transition: bottom 200ms ease-out;
-  background-color: ${({ colorHue }) => `hsl(${colorHue}deg 100% 60%)`};
+  right: var(--padding-4);
+  bottom: var(--padding-4);
+  height: var(--menu-button-size);
+  width: var(--menu-button-size);
+  border-radius: calc(var(--menu-button-size) / 2);
+  transition-property: bottom;
+  transition-duration: var(--menu-transition-duration);
+  transition-timing-function: var(--menu-transition-timing-function);
+  background-color: hsl(var(--color-hue) 100% 60%);
 
   &:hover {
     transform: scale(1.05);
-    background-color: ${({ colorHue }) => `hsl(${colorHue}deg 100% 55%)`};
+    background-color: hsl(var(--color-hue) 100% 55%);
   }
   &:active {
     transform: scale(0.95);
-    background-color: ${({ colorHue }) => `hsl(${colorHue}deg 100% 55%)`};
+    background-color: hsl(var(--color-hue) 100% 55%);
   }
   &.menu-button-open {
-    /* Button size + menu padding + menu border */
-    bottom: -62px;
-  }
-
-  svg {
-    position: absolute;
-    pointer-events: none;
-    fill: hsl(0deg 0% 0%);
+    bottom: calc(
+      -1 * (var(--menu-button-size) + var(--padding-3) + var(--border-width))
+    );
   }
 `;
 
 const StyledSettingsIcon = styled(SettingsIcon)`
-  top: ${(BUTTON_SIZE - SETTINGS_ICON_SIZE) / 2}px;
-  left: ${(BUTTON_SIZE - SETTINGS_ICON_SIZE) / 2}px;
-  height: ${SETTINGS_ICON_SIZE}px;
-  width: ${SETTINGS_ICON_SIZE}px;
+  fill: var(--black);
+  top: calc((var(--menu-button-size) - var(--settings-icon-size)) / 2);
+  left: calc((var(--menu-button-size) - var(--settings-icon-size)) / 2);
+  height: var(--settings-icon-size);
+  width: var(--settings-icon-size);
 `;
 
 const StyledCloseIcon = styled(CloseIcon)`
-  top: ${(BUTTON_SIZE - CLOSE_ICON_SIZE) / 2}px;
-  left: ${(BUTTON_SIZE - CLOSE_ICON_SIZE) / 2}px;
-  height: ${CLOSE_ICON_SIZE}px;
-  width: ${CLOSE_ICON_SIZE}px;
+  fill: var(--black);
+  top: calc((var(--menu-button-size) - var(--close-icon-size)) / 2);
+  left: calc((var(--menu-button-size) - var(--close-icon-size)) / 2);
+  height: var(--close-icon-size);
+  width: var(--close-icon-size);
 `;
 
 export default MenuButton;

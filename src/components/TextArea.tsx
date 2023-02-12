@@ -1,15 +1,22 @@
-import React, { FC, useRef, useEffect } from "react";
+import React, { FC, useRef, useEffect, useMemo, CSSProperties } from "react";
 import styled from "styled-components";
 
 interface IProps {
   value: string;
-  colorHue: number;
   menuOpen: boolean;
   onChange: (val: string) => void;
 }
 
-const TextArea: FC<IProps> = ({ value, colorHue, menuOpen, onChange }) => {
+const TextArea: FC<IProps> = ({ value, menuOpen, onChange }) => {
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const cssVariables = useMemo(
+    () =>
+      ({
+        "--text-area-height": "150px",
+      } as CSSProperties),
+    []
+  );
 
   useEffect(() => {
     let focusTimeout: NodeJS.Timeout | null = null;
@@ -29,7 +36,6 @@ const TextArea: FC<IProps> = ({ value, colorHue, menuOpen, onChange }) => {
           // To place cursor at end of text
           textAreaRef.current.value = tempVal;
         }
-        // TODO: Create constant
       }, 200);
     }
 
@@ -40,31 +46,28 @@ const TextArea: FC<IProps> = ({ value, colorHue, menuOpen, onChange }) => {
     <StyledTextArea
       value={value}
       ref={textAreaRef}
-      colorHue={colorHue}
       spellCheck="false"
+      style={cssVariables}
       onChange={(e) => onChange(e.target.value)}
     />
   );
 };
 
-const StyledTextArea = styled.textarea<{ colorHue: number }>`
-  height: 150px;
+const StyledTextArea = styled.textarea`
+  height: var(--text-area-height);
   width: 100%;
-  resize: none;
-  outline: 0;
-  padding: 5px 10px;
-  border-radius: 5px;
-  background-color: hsl(0deg 0% 0%);
-  border: 2px solid hsl(0deg 0% 20%);
-  color: hsl(0deg 0% 100%);
+  border-radius: var(--border-radius);
+  background-color: var(--black);
+  border: var(--border-width) solid var(--border-color);
+  color: var(--white);
 
   &:focus {
-    border-color: ${({ colorHue }) => `hsl(${colorHue}deg 80% 60%)`};
+    border-color: hsl(var(--color-hue) 80% 60%);
   }
 
   &::selection {
-    color: hsl(0deg 0% 0%);
-    background: ${({ colorHue }) => `hsl(${colorHue}deg 100% 60%)`};
+    color: var(--black);
+    background: hsl(var(--color-hue) 100% 60%);
   }
 `;
 

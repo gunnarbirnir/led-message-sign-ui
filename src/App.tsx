@@ -1,4 +1,10 @@
-import React, { FC, useMemo, useState, useCallback } from "react";
+import React, {
+  FC,
+  useMemo,
+  useState,
+  useCallback,
+  CSSProperties,
+} from "react";
 import styled from "styled-components";
 import { debounce } from "debounce";
 import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
@@ -25,6 +31,27 @@ const App: FC = () => {
     return { colorHue };
   }, []);
 
+  const cssVariables = useMemo(
+    () =>
+      ({
+        "--black": "hsl(0deg 0% 0%)",
+        "--white": "hsl(0deg 0% 100%)",
+        "--color-hue": `${colorHue}deg`,
+        "--sign-max-width": "1000px",
+        "--main-content-min-width": "300px",
+        "--border-width": "2px",
+        "--border-color": "hsl(0deg 0% 20%)",
+        "--border-radius": "5px",
+        "--menu-transition-duration": "200ms",
+        "--menu-transition-timing-function": "ease-out",
+        "--padding-1": "5px",
+        "--padding-2": "10px",
+        "--padding-3": "20px",
+        "--padding-4": "40px",
+      } as CSSProperties),
+    [colorHue]
+  );
+
   const updateSignText = useMemo(
     () =>
       debounce((text: string) => {
@@ -49,9 +76,9 @@ const App: FC = () => {
   );
 
   return (
-    <AppContainer>
-      <MainContent>
-        <LEDContainer>
+    <AppContainer className="d-f fd-c" style={cssVariables}>
+      <MainContent className="f-1 d-f fd-c jc-c ai-c pos-r">
+        <LEDContainer className="w-100">
           <LEDMessageSign
             text={signText}
             // height={50}
@@ -63,18 +90,9 @@ const App: FC = () => {
             // updatesPerSecond={1}
           />
         </LEDContainer>
-        <MenuButton
-          menuOpen={menuOpen}
-          colorHue={colorHue}
-          setMenuOpen={setMenuOpen}
-        />
+        <MenuButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       </MainContent>
-      <Menu
-        text={textInput}
-        menuOpen={menuOpen}
-        colorHue={colorHue}
-        setText={updateTextInput}
-      />
+      <Menu text={textInput} menuOpen={menuOpen} setText={updateTextInput} />
     </AppContainer>
   );
 };
@@ -82,25 +100,16 @@ const App: FC = () => {
 const AppContainer = styled.div`
   height: 100vh;
   width: 100vw;
-  background-color: hsl(0deg 0% 0%);
-  display: flex;
-  flex-direction: column;
+  background-color: var(--black);
   overflow: hidden;
 `;
 
 const MainContent = styled.main`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  min-height: 300px;
+  min-height: var(--main-content-min-width);
 `;
 
 const LEDContainer = styled.div`
-  width: 100%;
-  max-width: 1000px;
+  max-width: var(--sign-max-width);
 `;
 
 export default App;
