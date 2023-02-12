@@ -1,57 +1,149 @@
-import React, { FC, useMemo } from "react";
+import React, {
+  FC,
+  useMemo,
+  useState,
+  useCallback,
+  CSSProperties,
+  useEffect,
+} from "react";
 import styled from "styled-components";
+import { debounce } from "debounce";
 import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
+
+import { Menu, MenuButton } from "./components";
+import { MENU_TRANSITION_DURATION } from "./constants";
 
 const DEFAULT_TEXT = "LED Message Sign";
 
 const App: FC = () => {
-  const { text, colorHue } = useMemo(() => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [textInput, setTextInput] = useState("");
+  const [signText, setSignText] = useState("");
+  const [hueInput, setHueInput] = useState(0);
+  const [colorHue, setColorHue] = useState(0);
+
+  useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const textParam = urlParams.get("text");
     const hueParam = urlParams.get("hue");
     const hueNum = parseInt(hueParam || "0");
+    const initText = textParam ? decodeURIComponent(textParam) : DEFAULT_TEXT;
+    const hue = isNaN(hueNum) ? 0 : hueNum;
 
-    const text = textParam ? decodeURIComponent(textParam) : DEFAULT_TEXT;
-    const colorHue = isNaN(hueNum) ? 0 : hueNum;
-
-    return { text, colorHue };
+    setSignText(initText);
+    setTextInput(initText);
+    setColorHue(hue);
+    setHueInput(hue);
   }, []);
 
-  if (!text) {
-    return null;
-  }
+  const cssVariables = useMemo(
+    () =>
+      ({
+        "--black": "hsl(0deg 0% 0%)",
+        "--white": "hsl(0deg 0% 100%)",
+        "--color-hue": `${colorHue}deg`,
+        "--sign-max-width": "1000px",
+        "--main-content-min-width": "300px",
+        "--border-width": "2px",
+        "--border-color": "hsl(0deg 0% 20%)",
+        "--border-radius": "5px",
+        "--menu-transition-duration": `${MENU_TRANSITION_DURATION}ms`,
+        "--menu-transition-timing-function": "ease-out",
+        "--padding-1": "5px",
+        "--padding-2": "10px",
+        "--padding-3": "20px",
+        "--padding-4": "40px",
+      } as CSSProperties),
+    [colorHue]
+  );
+
+  const updateSignText = useMemo(
+    () =>
+      debounce((text: string) => {
+        setSignText(text);
+        const url = new URL(window.location.href);
+        if (text) {
+          url.searchParams.set("text", encodeURIComponent(text.toLowerCase()));
+        } else {
+          url.searchParams.delete("text");
+        }
+        window.history.replaceState({}, "", url);
+      }, 500),
+    []
+  );
+
+  const updateColorHue = useMemo(
+    () =>
+      debounce((hue: number) => {
+        setColorHue(hue);
+        const url = new URL(window.location.href);
+        if (hue) {
+          url.searchParams.set("hue", hue.toString());
+        } else {
+          url.searchParams.delete("hue");
+        }
+        window.history.replaceState({}, "", url);
+      }, 500),
+    []
+  );
+
+  const updateTextInput = useCallback(
+    (text: string) => {
+      setTextInput(text);
+      updateSignText(text);
+    },
+    [updateSignText]
+  );
+
+  const updateHueInput = useCallback(
+    (hue: number) => {
+      setHueInput(hue);
+      updateColorHue(hue);
+    },
+    [updateColorHue]
+  );
 
   return (
-    <Container>
-      <InnerContainer>
-        <LEDMessageSign
-          text={text}
-          // height={50}
-          // width={500}
-          fullWidth
-          colorHue={colorHue}
-          // hideFrame
-          // coloredOffLights={false}
-          // animationFramesPerUpdate={1}
-        />
-      </InnerContainer>
-    </Container>
+    <AppContainer className="d-f fd-c" style={cssVariables}>
+      <MainContent className="f-1 d-f fd-c jc-c ai-c pos-r">
+        <LEDContainer className="w-100">
+          <LEDMessageSign
+            text={signText}
+            // height={50}
+            // width={500}
+            fullWidth
+            colorHue={colorHue}
+            // hideFrame
+            // coloredOffLights={false}
+            // updatesPerSecond={1}
+          />
+        </LEDContainer>
+        <MenuButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      </MainContent>
+      <Menu
+        text={textInput}
+        menuOpen={menuOpen}
+        colorHue={hueInput}
+        setText={updateTextInput}
+        setColorHue={updateHueInput}
+      />
+    </AppContainer>
   );
 };
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+const AppContainer = styled.div`
   height: 100vh;
   width: 100vw;
-  background-color: hsl(0deg 0% 0%);
+  background-color: var(--black);
+  overflow: hidden;
 `;
 
-const InnerContainer = styled.div`
-  width: 100%;
-  max-width: 1000px;
+const MainContent = styled.main`
+  min-height: var(--main-content-min-width);
+`;
+
+const LEDContainer = styled.div`
+  max-width: var(--sign-max-width);
 `;
 
 export default App;
