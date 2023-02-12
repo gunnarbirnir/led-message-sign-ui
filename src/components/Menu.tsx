@@ -3,14 +3,23 @@ import styled from "styled-components";
 import cn from "classnames";
 
 import TextArea from "./TextArea";
+import HueSlider from "./HueSlider";
 
 interface IProps {
   menuOpen: boolean;
   text: string;
+  colorHue: number;
   setText: (text: string) => void;
+  setColorHue: (hue: number) => void;
 }
 
-const Menu: FC<IProps> = ({ menuOpen, text, setText }) => {
+const Menu: FC<IProps> = ({
+  menuOpen,
+  text,
+  colorHue,
+  setText,
+  setColorHue,
+}) => {
   const cssVariables = useMemo(
     () =>
       ({
@@ -24,8 +33,9 @@ const Menu: FC<IProps> = ({ menuOpen, text, setText }) => {
   return (
     <StyledMenu className={cn({ "menu-open": menuOpen })} style={cssVariables}>
       <MenuContainer className="h-100 d-f jc-c">
-        <MenuContent className="w-100">
+        <MenuContent className="w-100 d-f fd-c">
           <TextArea value={text} onChange={setText} menuOpen={menuOpen} />
+          <HueSlider value={colorHue} onChange={setColorHue} />
         </MenuContent>
       </MenuContainer>
     </StyledMenu>
@@ -54,6 +64,7 @@ const MenuContainer = styled.div`
 
 const MenuContent = styled.div`
   max-width: var(--menu-content-max-width);
+  gap: var(--padding-4);
 `;
 
 export default Menu;

@@ -4,12 +4,14 @@ import React, {
   useState,
   useCallback,
   CSSProperties,
+  useEffect,
 } from "react";
 import styled from "styled-components";
 import { debounce } from "debounce";
 import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
 
 import { Menu, MenuButton } from "./components";
+import { MENU_TRANSITION_DURATION } from "./constants";
 
 const DEFAULT_TEXT = "LED Message Sign";
 
@@ -17,18 +19,21 @@ const App: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [textInput, setTextInput] = useState("");
   const [signText, setSignText] = useState("");
+  const [hueInput, setHueInput] = useState(0);
+  const [colorHue, setColorHue] = useState(0);
 
-  const { colorHue } = useMemo(() => {
+  useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const textParam = urlParams.get("text");
     const hueParam = urlParams.get("hue");
     const hueNum = parseInt(hueParam || "0");
     const initText = textParam ? decodeURIComponent(textParam) : DEFAULT_TEXT;
-    const colorHue = isNaN(hueNum) ? 0 : hueNum;
+    const hue = isNaN(hueNum) ? 0 : hueNum;
 
     setSignText(initText);
     setTextInput(initText);
-    return { colorHue };
+    setColorHue(hue);
+    setHueInput(hue);
   }, []);
 
   const cssVariables = useMemo(
@@ -42,7 +47,7 @@ const App: FC = () => {
         "--border-width": "2px",
         "--border-color": "hsl(0deg 0% 20%)",
         "--border-radius": "5px",
-        "--menu-transition-duration": "200ms",
+        "--menu-transition-duration": `${MENU_TRANSITION_DURATION}ms`,
         "--menu-transition-timing-function": "ease-out",
         "--padding-1": "5px",
         "--padding-2": "10px",
@@ -67,12 +72,35 @@ const App: FC = () => {
     []
   );
 
+  const updateColorHue = useMemo(
+    () =>
+      debounce((hue: number) => {
+        setColorHue(hue);
+        const url = new URL(window.location.href);
+        if (hue) {
+          url.searchParams.set("hue", hue.toString());
+        } else {
+          url.searchParams.delete("hue");
+        }
+        window.history.replaceState({}, "", url);
+      }, 500),
+    []
+  );
+
   const updateTextInput = useCallback(
     (text: string) => {
       setTextInput(text);
       updateSignText(text);
     },
     [updateSignText]
+  );
+
+  const updateHueInput = useCallback(
+    (hue: number) => {
+      setHueInput(hue);
+      updateColorHue(hue);
+    },
+    [updateColorHue]
   );
 
   return (
@@ -92,7 +120,13 @@ const App: FC = () => {
         </LEDContainer>
         <MenuButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       </MainContent>
-      <Menu text={textInput} menuOpen={menuOpen} setText={updateTextInput} />
+      <Menu
+        text={textInput}
+        menuOpen={menuOpen}
+        colorHue={hueInput}
+        setText={updateTextInput}
+        setColorHue={updateHueInput}
+      />
     </AppContainer>
   );
 };

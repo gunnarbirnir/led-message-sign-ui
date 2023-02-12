@@ -1,6 +1,8 @@
 import React, { FC, useRef, useEffect, useMemo, CSSProperties } from "react";
 import styled from "styled-components";
 
+import { MENU_TRANSITION_DURATION } from "../constants";
+
 interface IProps {
   value: string;
   menuOpen: boolean;
@@ -38,7 +40,7 @@ const TextArea: FC<IProps> = ({ value, menuOpen, onChange }) => {
           // To place cursor at end of text
           textAreaRef.current.value = tempVal;
         }
-      }, 200);
+      }, MENU_TRANSITION_DURATION);
     }
 
     return clearFocusTimeout;
@@ -66,7 +68,6 @@ const StyledTextArea = styled.textarea`
   &:focus {
     border-color: hsl(var(--color-hue) 100% var(--text-area-focus-lightness));
   }
-
   &::selection {
     color: var(--black);
     background: hsl(var(--color-hue) 100% var(--text-area-selection-lightness));
