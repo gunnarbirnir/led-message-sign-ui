@@ -63,10 +63,8 @@ svg {
 }
 
 textarea {
-  resize: none;
   outline: 0;
   border: none;
-  padding: 5px 10px;
 }
 
 /* Global classes */

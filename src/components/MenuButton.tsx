@@ -2,14 +2,12 @@ import React, { FC, useMemo, CSSProperties } from "react";
 import styled from "styled-components";
 import cn from "classnames";
 
+import { useAppContext } from "../hooks";
 import { SettingsIcon, CloseIcon } from "../icons";
 
-interface IProps {
-  menuOpen: boolean;
-  setMenuOpen: (open: boolean) => void;
-}
+const MenuButton: FC = () => {
+  const { menuOpen, setMenuOpen } = useAppContext();
 
-const MenuButton: FC<IProps> = ({ menuOpen, setMenuOpen }) => {
   const cssVariables = useMemo(
     () =>
       ({

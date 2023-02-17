@@ -2,14 +2,14 @@ import React, { FC, useMemo, CSSProperties } from "react";
 import styled from "styled-components";
 import * as Slider from "@radix-ui/react-slider";
 
-export interface IProps {
+export interface SliderProps {
   value: number;
   min?: number;
   max?: number;
   onChange: (value: number) => void;
 }
 
-const SliderComp: FC<IProps> = ({ value, min, max, onChange }) => {
+const SliderComp: FC<SliderProps> = ({ value, min, max, onChange }) => {
   const cssVariables = useMemo(
     () =>
       ({

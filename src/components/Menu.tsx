@@ -2,24 +2,14 @@ import React, { FC, useMemo, CSSProperties } from "react";
 import styled from "styled-components";
 import cn from "classnames";
 
-import TextArea from "./TextArea";
-import HueSlider from "./HueSlider";
+import { useAppContext, useFocusSignTextArea } from "../hooks";
+import { TextArea, HueSlider } from "./elements";
 
-interface IProps {
-  menuOpen: boolean;
-  text: string;
-  colorHue: number;
-  setText: (text: string) => void;
-  setColorHue: (hue: number) => void;
-}
+const Menu: FC = () => {
+  const { menuOpen, signText, colorHue, setSignText, setColorHue } =
+    useAppContext();
+  const textAreaRef = useFocusSignTextArea(menuOpen);
 
-const Menu: FC<IProps> = ({
-  menuOpen,
-  text,
-  colorHue,
-  setText,
-  setColorHue,
-}) => {
   const cssVariables = useMemo(
     () =>
       ({
@@ -34,7 +24,13 @@ const Menu: FC<IProps> = ({
     <StyledMenu className={cn({ "menu-open": menuOpen })} style={cssVariables}>
       <MenuContainer className="h-100 d-f jc-c">
         <MenuContent className="w-100 d-f fd-c">
-          <TextArea value={text} onChange={setText} menuOpen={menuOpen} />
+          <TextArea
+            ref={textAreaRef}
+            value={signText}
+            height={150}
+            maxLength={100}
+            onChange={setSignText}
+          />
           <HueSlider value={colorHue} onChange={setColorHue} />
         </MenuContent>
       </MenuContainer>

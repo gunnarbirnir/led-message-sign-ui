@@ -1,40 +1,29 @@
-import React, {
-  FC,
-  useMemo,
-  useState,
-  useCallback,
-  CSSProperties,
-  useEffect,
-} from "react";
+import React, { FC, useMemo, useState, CSSProperties } from "react";
 import styled from "styled-components";
-import { debounce } from "debounce";
 import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
 
+import { useSignConfig } from "./hooks";
+import { AppContext } from "./context";
 import { Menu, MenuButton } from "./components";
 import { MENU_TRANSITION_DURATION } from "./constants";
 
-const DEFAULT_TEXT = "LED Message Sign";
-
 const App: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [textInput, setTextInput] = useState("");
-  const [signText, setSignText] = useState("");
-  const [hueInput, setHueInput] = useState(0);
-  const [colorHue, setColorHue] = useState(0);
+  const { signText, colorHue, input, updateSignConfigDebounced } =
+    useSignConfig();
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const textParam = urlParams.get("text");
-    const hueParam = urlParams.get("hue");
-    const hueNum = parseInt(hueParam || "0");
-    const initText = textParam ? decodeURIComponent(textParam) : DEFAULT_TEXT;
-    const hue = isNaN(hueNum) ? 0 : hueNum;
-
-    setSignText(initText);
-    setTextInput(initText);
-    setColorHue(hue);
-    setHueInput(hue);
-  }, []);
+  const contextValue = useMemo(
+    () => ({
+      menuOpen,
+      ...input,
+      setMenuOpen,
+      setSignText: (text: string) =>
+        updateSignConfigDebounced({ signText: text }),
+      setColorHue: (hue: number) =>
+        updateSignConfigDebounced({ colorHue: hue }),
+    }),
+    [menuOpen, input, updateSignConfigDebounced]
+  );
 
   const cssVariables = useMemo(
     () =>
@@ -57,77 +46,27 @@ const App: FC = () => {
     [colorHue]
   );
 
-  const updateSignText = useMemo(
-    () =>
-      debounce((text: string) => {
-        setSignText(text);
-        const url = new URL(window.location.href);
-        if (text) {
-          url.searchParams.set("text", encodeURIComponent(text.toLowerCase()));
-        } else {
-          url.searchParams.delete("text");
-        }
-        window.history.replaceState({}, "", url);
-      }, 500),
-    []
-  );
-
-  const updateColorHue = useMemo(
-    () =>
-      debounce((hue: number) => {
-        setColorHue(hue);
-        const url = new URL(window.location.href);
-        if (hue) {
-          url.searchParams.set("hue", hue.toString());
-        } else {
-          url.searchParams.delete("hue");
-        }
-        window.history.replaceState({}, "", url);
-      }, 500),
-    []
-  );
-
-  const updateTextInput = useCallback(
-    (text: string) => {
-      setTextInput(text);
-      updateSignText(text);
-    },
-    [updateSignText]
-  );
-
-  const updateHueInput = useCallback(
-    (hue: number) => {
-      setHueInput(hue);
-      updateColorHue(hue);
-    },
-    [updateColorHue]
-  );
-
   return (
-    <AppContainer className="d-f fd-c" style={cssVariables}>
-      <MainContent className="f-1 d-f fd-c jc-c ai-c pos-r">
-        <LEDContainer className="w-100">
-          <LEDMessageSign
-            text={signText}
-            // height={50}
-            // width={500}
-            fullWidth
-            colorHue={colorHue}
-            // hideFrame
-            // coloredOffLights={false}
-            // updatesPerSecond={1}
-          />
-        </LEDContainer>
-        <MenuButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-      </MainContent>
-      <Menu
-        text={textInput}
-        menuOpen={menuOpen}
-        colorHue={hueInput}
-        setText={updateTextInput}
-        setColorHue={updateHueInput}
-      />
-    </AppContainer>
+    <AppContext.Provider value={contextValue}>
+      <AppContainer className="d-f fd-c" style={cssVariables}>
+        <MainContent className="f-1 d-f fd-c jc-c ai-c pos-r">
+          <LEDContainer className="w-100">
+            <LEDMessageSign
+              text={signText}
+              // height={50}
+              // width={500}
+              fullWidth
+              colorHue={colorHue}
+              // hideFrame
+              // coloredOffLights={false}
+              // updatesPerSecond={1}
+            />
+          </LEDContainer>
+          <MenuButton />
+        </MainContent>
+        <Menu />
+      </AppContainer>
+    </AppContext.Provider>
   );
 };
 
