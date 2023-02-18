@@ -1,4 +1,4 @@
-import React, { FC, useMemo, CSSProperties, PropsWithChildren } from "react";
+import React, { FC, PropsWithChildren } from "react";
 import styled from "styled-components";
 
 import { BaseProps } from "../../types";
@@ -13,20 +13,8 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
   style,
   onClick,
 }) => {
-  const cssVariables = useMemo(
-    () =>
-      ({
-        "--button-padding": "10px 20px",
-      } as CSSProperties),
-    []
-  );
-
   return (
-    <StyledButton
-      onClick={onClick}
-      className={className}
-      style={{ ...cssVariables, ...style }}
-    >
+    <StyledButton onClick={onClick} className={className} style={style}>
       {children}
     </StyledButton>
   );
@@ -34,20 +22,20 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
 
 const StyledButton = styled.button`
   color: var(--black);
-  padding: var(--button-padding);
+  padding: var(--padding-2) var(--padding-3);
   border-radius: 1000px;
-  background-color: hsl(var(--color-hue) 50% 50%);
+  background-color: hsl(var(--color-hue) 100% 70%);
   text-transform: uppercase;
   font-size: 14px;
   font-weight: 600;
 
   &:hover {
-    transform: scale(1.05);
-    background-color: hsl(var(--color-hue) 70% 50%);
+    transform: scale(1.02);
+    background-color: hsl(var(--color-hue) 100% 60%);
   }
   &:active {
-    transform: scale(0.95);
-    background-color: hsl(var(--color-hue) 70% 50%);
+    transform: scale(0.98);
+    background-color: hsl(var(--color-hue) 100% 60%);
   }
 `;
 

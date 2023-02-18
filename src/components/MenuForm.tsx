@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useCallback } from "react";
 import styled from "styled-components";
 
 import { useAppContext, useFocusSignTextArea } from "../hooks";
@@ -11,12 +11,20 @@ const MenuForm: FC = () => {
     colorHue,
     animationSpeed,
     signHeight,
+    resetSignConfig,
     setSignText,
     setColorHue,
     setAnimationSpeed,
     setSignHeight,
   } = useAppContext();
   const textAreaRef = useFocusSignTextArea(menuOpen);
+
+  const handleReset = useCallback(() => {
+    resetSignConfig();
+    if (textAreaRef?.current) {
+      textAreaRef.current.focus();
+    }
+  }, [resetSignConfig, textAreaRef]);
 
   return (
     <StyledMenuForm className="d-f fd-r">
@@ -27,6 +35,7 @@ const MenuForm: FC = () => {
             value={signText}
             height={100}
             maxLength={100}
+            placeholder="Sign Text"
             onChange={setSignText}
           />
         </div>
@@ -49,7 +58,7 @@ const MenuForm: FC = () => {
       <FormOther>
         <FormButtons className="d-f fd-r">
           <Button onClick={() => null}>Copy Link</Button>
-          <Button onClick={() => null}>Reset</Button>
+          <Button onClick={handleReset}>Reset</Button>
         </FormButtons>
       </FormOther>
     </StyledMenuForm>

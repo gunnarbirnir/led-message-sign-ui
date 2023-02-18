@@ -5,11 +5,12 @@ interface TextAreaProps {
   value: string;
   height?: number;
   maxLength?: number;
+  placeholder?: string;
   onChange: (val: string) => void;
 }
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ value, height = 100, maxLength, onChange }, ref) => {
+  ({ value, height = 100, maxLength, placeholder, onChange }, ref) => {
     const cssVariables = useMemo(
       () =>
         ({
@@ -29,6 +30,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         spellCheck="false"
         style={cssVariables}
         maxLength={maxLength}
+        placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
       />
     );

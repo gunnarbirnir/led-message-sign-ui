@@ -56,7 +56,20 @@ const useSignConfig = () => {
     [debouncedUpdateConfig]
   );
 
-  return { ...state, updateSignConfig, updateSignConfigDebounced };
+  const resetSignConfig = useCallback(() => {
+    dispatch({
+      type: SignConfigActionType.UPDATE_CONFIG_AND_INPUT,
+      payload: INIT_SIGN_CONFIG,
+    });
+    updateUrlParams(INIT_SIGN_CONFIG);
+  }, [updateUrlParams]);
+
+  return {
+    ...state,
+    updateSignConfig,
+    updateSignConfigDebounced,
+    resetSignConfig,
+  };
 };
 
 export default useSignConfig;

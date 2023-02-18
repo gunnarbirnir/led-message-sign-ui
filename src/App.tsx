@@ -16,6 +16,7 @@ const App: FC = () => {
     signHeight,
     input,
     updateSignConfigDebounced,
+    resetSignConfig,
   } = useSignConfig();
 
   const contextValue = useMemo(
@@ -23,6 +24,7 @@ const App: FC = () => {
       menuOpen,
       ...input,
       setMenuOpen,
+      resetSignConfig,
       setSignText: (text: string) =>
         updateSignConfigDebounced({ signText: text }),
       setColorHue: (hue: number) =>
@@ -32,7 +34,7 @@ const App: FC = () => {
       setSignHeight: (height: number) =>
         updateSignConfigDebounced({ signHeight: height }),
     }),
-    [menuOpen, input, updateSignConfigDebounced]
+    [menuOpen, input, updateSignConfigDebounced, resetSignConfig]
   );
 
   const cssVariables = useMemo(
