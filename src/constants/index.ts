@@ -1,3 +1,4 @@
+export const SIGN_DEFAULT_WIDTH = 1000;
 export const INIT_SIGN_CONFIG = {
   signText: "",
   colorHue: 0,

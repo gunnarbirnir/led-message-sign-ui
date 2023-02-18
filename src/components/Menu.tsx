@@ -29,7 +29,7 @@ const Menu: FC = () => {
   );
 };
 
-const StyledMenu = styled.div`
+const StyledMenu = styled.aside`
   z-index: 0;
   height: 0px;
   transition-property: height, padding;

@@ -77,7 +77,7 @@ export const SliderTrack = styled(Slider.Track)`
 `;
 
 export const SliderRange = styled(Slider.Range)`
-  background-color: hsl(var(--color-hue) 70% 70%);
+  background-color: hsl(var(--color-hue) 50% 50%);
   border-radius: calc(var(--slider-track-height) / 2);
 `;
 

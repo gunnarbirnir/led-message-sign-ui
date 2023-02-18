@@ -32,7 +32,7 @@ const SwitchContainer = styled.div`
   gap: var(--padding-2);
   p {
     color: var(--white);
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
   }
 `;
@@ -43,8 +43,9 @@ const StyledSwitch = styled(Switch.Root)`
   background-color: var(--border-color);
   border-radius: 1000px;
   position: relative;
+
   &[data-state="checked"] {
-    background-color: hsl(var(--color-hue) 100% 70%);
+    background-color: hsl(var(--color-hue) 50% 50%);
   }
 `;
 
