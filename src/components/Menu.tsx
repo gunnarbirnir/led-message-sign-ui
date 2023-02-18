@@ -40,9 +40,10 @@ const Menu: FC = () => {
           />
           <HueSlider value={colorHue} onChange={setColorHue} />
           <Slider
-            min={0}
-            max={9}
             value={animationSpeed}
+            label="Speed"
+            min={1}
+            max={10}
             onChange={setAnimationSpeed}
           />
         </MenuContent>
@@ -73,7 +74,7 @@ const MenuContainer = styled.div`
 
 const MenuContent = styled.div`
   max-width: var(--menu-content-max-width);
-  gap: var(--padding-4);
+  gap: var(--padding-3);
 `;
 
 export default Menu;

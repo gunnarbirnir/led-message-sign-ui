@@ -43,7 +43,7 @@ const StyledTextArea = styled.textarea`
   border: var(--border-width) solid var(--border-color);
   color: var(--white);
   resize: none;
-  padding: 5px 10px;
+  padding: var(--padding-1) var(--padding-2);
 
   &:focus {
     border-color: hsl(
