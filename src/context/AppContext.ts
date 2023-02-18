@@ -8,6 +8,7 @@ interface AppContextProps extends SignConfig {
   setSignText: (text: string) => void;
   setColorHue: (hue: number) => void;
   setAnimationSpeed: (speed: number) => void;
+  setSignHeight: (height: number) => void;
 }
 
 const AppContext = createContext<AppContextProps>({
@@ -15,10 +16,12 @@ const AppContext = createContext<AppContextProps>({
   signText: "",
   colorHue: 0,
   animationSpeed: 0,
+  signHeight: 0,
   setMenuOpen: () => null,
   setSignText: () => null,
   setColorHue: () => null,
   setAnimationSpeed: () => null,
+  setSignHeight: () => null,
 });
 
 export default AppContext;

@@ -11,6 +11,7 @@ const URL_PARAMS: Record<string, string> = {
   signText: "text",
   colorHue: "color",
   animationSpeed: "speed",
+  signHeight: "height",
 };
 
 const useUrlParams = (initConfig: (config: SignConfigUpdate) => void) => {

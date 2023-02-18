@@ -11,9 +11,11 @@ const Menu: FC = () => {
     signText,
     colorHue,
     animationSpeed,
+    signHeight,
     setSignText,
     setColorHue,
     setAnimationSpeed,
+    setSignHeight,
   } = useAppContext();
   const textAreaRef = useFocusSignTextArea(menuOpen);
 
@@ -45,6 +47,13 @@ const Menu: FC = () => {
             min={1}
             max={10}
             onChange={setAnimationSpeed}
+          />
+          <Slider
+            value={signHeight}
+            label="Height"
+            min={50}
+            max={250}
+            onChange={setSignHeight}
           />
         </MenuContent>
       </MenuContainer>

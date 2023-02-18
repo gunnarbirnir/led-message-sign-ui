@@ -2,6 +2,7 @@ export interface SignConfig {
   signText: string;
   colorHue: number;
   animationSpeed: number;
+  signHeight: number;
 }
 
 export type SignConfigUpdate = Partial<SignConfig>;

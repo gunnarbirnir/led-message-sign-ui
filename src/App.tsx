@@ -13,6 +13,7 @@ const App: FC = () => {
     signText,
     colorHue,
     animationSpeed,
+    signHeight,
     input,
     updateSignConfigDebounced,
   } = useSignConfig();
@@ -28,6 +29,8 @@ const App: FC = () => {
         updateSignConfigDebounced({ colorHue: hue }),
       setAnimationSpeed: (speed: number) =>
         updateSignConfigDebounced({ animationSpeed: speed }),
+      setSignHeight: (height: number) =>
+        updateSignConfigDebounced({ signHeight: height }),
     }),
     [menuOpen, input, updateSignConfigDebounced]
   );
@@ -61,7 +64,7 @@ const App: FC = () => {
           <LEDContainer className="w-100">
             <LEDMessageSign
               text={signText}
-              // height={50}
+              height={signHeight}
               // width={500}
               fullWidth
               colorHue={colorHue}
