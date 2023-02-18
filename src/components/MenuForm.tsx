@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import styled from "styled-components";
 
 import { useAppContext, useFocusSignTextArea } from "../hooks";
-import { TextArea, HueSlider, Slider } from "./elements";
+import { TextArea, HueSlider, Slider, Button } from "./elements";
 
 const MenuForm: FC = () => {
   const {
@@ -46,7 +46,12 @@ const MenuForm: FC = () => {
           onChange={setSignHeight}
         />
       </FormMain>
-      <FormOther />
+      <FormOther>
+        <FormButtons className="d-f fd-r">
+          <Button onClick={() => null}>Copy Link</Button>
+          <Button onClick={() => null}>Reset</Button>
+        </FormButtons>
+      </FormOther>
     </StyledMenuForm>
   );
 };
@@ -65,9 +70,13 @@ const FormMain = styled.div`
 
 const FormOther = styled.div`
   flex: 1;
-  background-color: pink;
-  height: 100%;
-  width: 100%;
+`;
+
+const FormButtons = styled.div`
+  gap: var(--padding-3);
+  > * {
+    flex: 1;
+  }
 `;
 
 export default MenuForm;
