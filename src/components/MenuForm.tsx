@@ -2,7 +2,7 @@ import React, { FC, useCallback } from "react";
 import styled from "styled-components";
 
 import { useAppContext, useFocusSignTextArea } from "../hooks";
-import { TextArea, HueSlider, Slider, Button } from "./elements";
+import { TextArea, HueSlider, Slider, Button, Switch } from "./elements";
 import CopyLinkButton from "./CopyLinkButton";
 
 const MenuForm: FC = () => {
@@ -57,6 +57,21 @@ const MenuForm: FC = () => {
         />
       </FormMain>
       <FormOther>
+        <Switch
+          label="Full Width"
+          checked={false}
+          onCheckedChange={() => null}
+        />
+        <Switch
+          label="Hide Frame"
+          checked={false}
+          onCheckedChange={() => null}
+        />
+        <Switch
+          label="Colored Off Lights"
+          checked
+          onCheckedChange={() => null}
+        />
         <FormButtons className="d-f fd-r">
           <CopyLinkButton />
           <Button onClick={handleReset}>Reset</Button>
@@ -72,7 +87,6 @@ const StyledMenuForm = styled.div`
 
 const FormMain = styled.div`
   flex: 2;
-
   > * {
     padding-bottom: var(--padding-3);
   }
@@ -80,9 +94,13 @@ const FormMain = styled.div`
 
 const FormOther = styled.div`
   flex: 1;
+  > * {
+    padding-bottom: var(--padding-3);
+  }
 `;
 
 const FormButtons = styled.div`
+  padding-top: var(--padding-3);
   gap: var(--padding-3);
   > * {
     flex: 1;

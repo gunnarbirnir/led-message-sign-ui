@@ -5,6 +5,7 @@
   "dependencies": {
     "@gunnarbirnir/led-message-sign": "0.1.17",
     "@radix-ui/react-slider": "^1.1.0",
+    "@radix-ui/react-switch": "^1.0.1",
     "classnames": "^2.3.2",
     "debounce": "^1.2.1",
     "react": "^18.2.0",
