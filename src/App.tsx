@@ -5,12 +5,17 @@ import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
 import { useSignConfig } from "./hooks";
 import { AppContext } from "./context";
 import { Menu, MenuButton } from "./components";
-import { MENU_TRANSITION_DURATION } from "./constants";
+import { MENU_TRANSITION_DURATION, SPEED_TO_UPDATES } from "./constants";
 
 const App: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { signText, colorHue, input, updateSignConfigDebounced } =
-    useSignConfig();
+  const {
+    signText,
+    colorHue,
+    animationSpeed,
+    input,
+    updateSignConfigDebounced,
+  } = useSignConfig();
 
   const contextValue = useMemo(
     () => ({
@@ -21,6 +26,8 @@ const App: FC = () => {
         updateSignConfigDebounced({ signText: text }),
       setColorHue: (hue: number) =>
         updateSignConfigDebounced({ colorHue: hue }),
+      setAnimationSpeed: (speed: number) =>
+        updateSignConfigDebounced({ animationSpeed: speed }),
     }),
     [menuOpen, input, updateSignConfigDebounced]
   );
@@ -60,7 +67,7 @@ const App: FC = () => {
               colorHue={colorHue}
               // hideFrame
               // coloredOffLights={false}
-              // updatesPerSecond={1}
+              updatesPerSecond={SPEED_TO_UPDATES[animationSpeed]}
             />
           </LEDContainer>
           <MenuButton />

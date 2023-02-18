@@ -3,11 +3,18 @@ import styled from "styled-components";
 import cn from "classnames";
 
 import { useAppContext, useFocusSignTextArea } from "../hooks";
-import { TextArea, HueSlider } from "./elements";
+import { TextArea, HueSlider, Slider } from "./elements";
 
 const Menu: FC = () => {
-  const { menuOpen, signText, colorHue, setSignText, setColorHue } =
-    useAppContext();
+  const {
+    menuOpen,
+    signText,
+    colorHue,
+    animationSpeed,
+    setSignText,
+    setColorHue,
+    setAnimationSpeed,
+  } = useAppContext();
   const textAreaRef = useFocusSignTextArea(menuOpen);
 
   const cssVariables = useMemo(
@@ -32,6 +39,12 @@ const Menu: FC = () => {
             onChange={setSignText}
           />
           <HueSlider value={colorHue} onChange={setColorHue} />
+          <Slider
+            min={0}
+            max={9}
+            value={animationSpeed}
+            onChange={setAnimationSpeed}
+          />
         </MenuContent>
       </MenuContainer>
     </StyledMenu>

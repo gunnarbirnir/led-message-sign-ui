@@ -49,10 +49,11 @@ export const SliderTrack = styled(Slider.Track)`
   background-color: var(--border-color);
   height: var(--slider-track-height);
   border-radius: calc(var(--slider-track-height) / 2);
+  cursor: pointer;
 `;
 
 export const SliderRange = styled(Slider.Range)`
-  background-color: hsl(var(--color-hue) 100% 50%);
+  background-color: hsl(var(--color-hue) 70% 70%);
   border-radius: calc(var(--slider-track-height) / 2);
 `;
 

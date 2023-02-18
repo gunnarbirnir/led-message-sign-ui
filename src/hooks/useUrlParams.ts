@@ -9,7 +9,8 @@ const DEFAULT_SIGN_TEXT = "LED Message Sign";
 
 const URL_PARAMS: Record<string, string> = {
   signText: "text",
-  colorHue: "hue",
+  colorHue: "color",
+  animationSpeed: "speed",
 };
 
 const useUrlParams = (initConfig: (config: SignConfigUpdate) => void) => {
