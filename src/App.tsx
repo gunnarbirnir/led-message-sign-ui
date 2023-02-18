@@ -42,6 +42,7 @@ const App: FC = () => {
         "--padding-2": "10px",
         "--padding-3": "20px",
         "--padding-4": "40px",
+        "--icon-button-size": "40px",
       } as CSSProperties),
     [colorHue]
   );
