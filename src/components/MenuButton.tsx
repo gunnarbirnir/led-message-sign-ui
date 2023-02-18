@@ -5,6 +5,7 @@ import cn from "classnames";
 import { useAppContext } from "../hooks";
 import { SettingsIcon, CloseIcon } from "../icons";
 
+// TODO: Refactor into element
 const MenuButton: FC = () => {
   const { menuOpen, setMenuOpen } = useAppContext();
 

@@ -1,42 +1,37 @@
-import { useReducer, useCallback, useMemo, useEffect } from "react";
+import { useReducer, useCallback, useMemo } from "react";
 import { debounce } from "debounce";
 
 import signConfigReducer, {
   SignConfigActionType,
   SignConfigUpdate,
 } from "../reducers/signConfigReducer";
+import { INIT_SIGN_CONFIG } from "../constants";
+import useUrlParams from "./useUrlParams";
 
-const initialSignConfig = {
-  signText: "",
-  colorHue: 0,
-};
-
-const initialState = {
-  ...initialSignConfig,
-  input: initialSignConfig,
-};
+const INIT_STATE = { ...INIT_SIGN_CONFIG, input: INIT_SIGN_CONFIG };
 
 const useSignConfig = () => {
-  const [state, dispatch] = useReducer(signConfigReducer, initialState);
+  const [state, dispatch] = useReducer(signConfigReducer, INIT_STATE);
 
-  useEffect(() => {
-    // TODO: Get initial values from URL
+  const initConfig = useCallback((config: SignConfigUpdate) => {
+    dispatch({
+      type: SignConfigActionType.UPDATE_CONFIG_AND_INPUT,
+      payload: config,
+    });
   }, []);
 
-  const updatePageURL = useCallback((config: SignConfigUpdate) => {
-    // TODO
-  }, []);
+  const updateUrlParams = useUrlParams(initConfig);
 
-  const debouncedUpdate = useMemo(
+  const debouncedUpdateConfig = useMemo(
     () =>
       debounce((config: SignConfigUpdate) => {
         dispatch({
           type: SignConfigActionType.UPDATE_SIGN_CONFIG,
           payload: config,
         });
-        updatePageURL(config);
+        updateUrlParams(config);
       }, 500),
-    [updatePageURL]
+    [updateUrlParams]
   );
 
   const updateSignConfig = useCallback(
@@ -45,9 +40,9 @@ const useSignConfig = () => {
         type: SignConfigActionType.UPDATE_CONFIG_AND_INPUT,
         payload: config,
       });
-      updatePageURL(config);
+      updateUrlParams(config);
     },
-    [updatePageURL]
+    [updateUrlParams]
   );
 
   const updateSignConfigDebounced = useCallback(
@@ -56,58 +51,12 @@ const useSignConfig = () => {
         type: SignConfigActionType.UPDATE_CONFIG_INPUT,
         payload: config,
       });
-      debouncedUpdate(config);
+      debouncedUpdateConfig(config);
     },
-    [debouncedUpdate]
+    [debouncedUpdateConfig]
   );
 
   return { ...state, updateSignConfig, updateSignConfigDebounced };
 };
 
 export default useSignConfig;
-
-// const DEFAULT_TEXT = "Click the settings icon to configure sign";
-
-// useEffect(() => {
-//   const urlParams = new URLSearchParams(window.location.search);
-//   const textParam = urlParams.get("text");
-//   const hueParam = urlParams.get("hue");
-//   const hueNum = parseInt(hueParam || "0");
-//   const initText = textParam ? decodeURIComponent(textParam) : DEFAULT_TEXT;
-//   const hue = isNaN(hueNum) ? 0 : hueNum;
-
-//   setSignText(initText);
-//   setTextInput(initText);
-//   setColorHue(hue);
-//   setHueInput(hue);
-// }, []);
-
-// const updateSignText = useMemo(
-//   () =>
-//     debounce((text: string) => {
-//       setSignText(text);
-//       const url = new URL(window.location.href);
-//       if (text) {
-//         url.searchParams.set("text", encodeURIComponent(text.toLowerCase()));
-//       } else {
-//         url.searchParams.delete("text");
-//       }
-//       window.history.replaceState({}, "", url);
-//     }, 500),
-//   []
-// );
-
-// const updateColorHue = useMemo(
-//   () =>
-//     debounce((hue: number) => {
-//       setColorHue(hue);
-//       const url = new URL(window.location.href);
-//       if (hue) {
-//         url.searchParams.set("hue", hue.toString());
-//       } else {
-//         url.searchParams.delete("hue");
-//       }
-//       window.history.replaceState({}, "", url);
-//     }, 500),
-//   []
-// );

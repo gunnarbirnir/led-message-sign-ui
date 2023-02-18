@@ -27,7 +27,7 @@ const Menu: FC = () => {
           <TextArea
             ref={textAreaRef}
             value={signText}
-            height={150}
+            height={100}
             maxLength={100}
             onChange={setSignText}
           />
