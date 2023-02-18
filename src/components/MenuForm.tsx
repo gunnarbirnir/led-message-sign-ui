@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { useAppContext, useFocusSignTextArea } from "../hooks";
 import { TextArea, HueSlider, Slider, Button } from "./elements";
+import CopyLinkButton from "./CopyLinkButton";
 
 const MenuForm: FC = () => {
   const {
@@ -57,7 +58,7 @@ const MenuForm: FC = () => {
       </FormMain>
       <FormOther>
         <FormButtons className="d-f fd-r">
-          <Button onClick={() => null}>Copy Link</Button>
+          <CopyLinkButton />
           <Button onClick={handleReset}>Reset</Button>
         </FormButtons>
       </FormOther>
