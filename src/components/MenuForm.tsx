@@ -12,11 +12,17 @@ const MenuForm: FC = () => {
     colorHue,
     animationSpeed,
     signHeight,
+    fullWidth,
+    hideFrame,
+    coloredOffLights,
     resetSignConfig,
     setSignText,
     setColorHue,
     setAnimationSpeed,
     setSignHeight,
+    setFullWidth,
+    setHideFrame,
+    setColoredOffLights,
   } = useAppContext();
   const textAreaRef = useFocusSignTextArea(menuOpen);
 
@@ -59,18 +65,18 @@ const MenuForm: FC = () => {
       <FormOther>
         <Switch
           label="Full Width"
-          checked={false}
-          onCheckedChange={() => null}
+          checked={fullWidth}
+          onCheckedChange={setFullWidth}
         />
         <Switch
           label="Hide Frame"
-          checked={false}
-          onCheckedChange={() => null}
+          checked={hideFrame}
+          onCheckedChange={setHideFrame}
         />
         <Switch
           label="Colored Off Lights"
-          checked
-          onCheckedChange={() => null}
+          checked={coloredOffLights}
+          onCheckedChange={setColoredOffLights}
         />
         <FormButtons className="d-f fd-r">
           <CopyLinkButton />

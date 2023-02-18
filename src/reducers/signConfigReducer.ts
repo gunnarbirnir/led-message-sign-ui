@@ -3,6 +3,9 @@ export interface SignConfig {
   colorHue: number;
   animationSpeed: number;
   signHeight: number;
+  fullWidth: boolean;
+  hideFrame: boolean;
+  coloredOffLights: boolean;
 }
 
 export type SignConfigUpdate = Partial<SignConfig>;

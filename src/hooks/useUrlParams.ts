@@ -12,6 +12,9 @@ const URL_PARAMS: Record<string, string> = {
   colorHue: "color",
   animationSpeed: "speed",
   signHeight: "height",
+  fullWidth: "full-width",
+  hideFrame: "hide-frame",
+  coloredOffLights: "colored-off-lights",
 };
 
 const useUrlParams = (initConfig: (config: SignConfigUpdate) => void) => {
@@ -31,6 +34,8 @@ const useUrlParams = (initConfig: (config: SignConfigUpdate) => void) => {
         } else if (confType === "number") {
           const paramNum = parseInt(paramVal);
           parsedParamVal = isNaN(paramNum) ? 0 : paramVal;
+        } else if (confType === "boolean") {
+          parsedParamVal = paramVal === "true";
         }
         paramValues[confKey] = parsedParamVal;
       }
@@ -54,6 +59,8 @@ const useUrlParams = (initConfig: (config: SignConfigUpdate) => void) => {
             formattedVal = encodeURIComponent(confValue.toLowerCase());
           } else if (typeof confValue === "number") {
             formattedVal = confValue.toString();
+          } else if (typeof confValue === "boolean") {
+            formattedVal = confValue ? "true" : "false";
           }
         }
 

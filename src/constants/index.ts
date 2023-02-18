@@ -3,6 +3,9 @@ export const INIT_SIGN_CONFIG = {
   colorHue: 0,
   animationSpeed: 6,
   signHeight: 150,
+  fullWidth: false,
+  hideFrame: false,
+  coloredOffLights: true,
 };
 export const MENU_TRANSITION_DURATION = 200;
 export const HUE_DEGREES = 360;

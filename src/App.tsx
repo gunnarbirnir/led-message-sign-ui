@@ -14,7 +14,10 @@ const App: FC = () => {
     colorHue,
     animationSpeed,
     signHeight,
+    hideFrame,
+    coloredOffLights,
     input,
+    updateSignConfig,
     updateSignConfigDebounced,
     resetSignConfig,
   } = useSignConfig();
@@ -25,16 +28,26 @@ const App: FC = () => {
       ...input,
       setMenuOpen,
       resetSignConfig,
-      setSignText: (text: string) =>
-        updateSignConfigDebounced({ signText: text }),
-      setColorHue: (hue: number) =>
-        updateSignConfigDebounced({ colorHue: hue }),
-      setAnimationSpeed: (speed: number) =>
-        updateSignConfigDebounced({ animationSpeed: speed }),
-      setSignHeight: (height: number) =>
-        updateSignConfigDebounced({ signHeight: height }),
+      setSignText: (signText: string) =>
+        updateSignConfigDebounced({ signText }),
+      setColorHue: (colorHue: number) =>
+        updateSignConfigDebounced({ colorHue }),
+      setAnimationSpeed: (animationSpeed: number) =>
+        updateSignConfigDebounced({ animationSpeed }),
+      setSignHeight: (signHeight: number) =>
+        updateSignConfigDebounced({ signHeight }),
+      setFullWidth: (fullWidth: boolean) => updateSignConfig({ fullWidth }),
+      setHideFrame: (hideFrame: boolean) => updateSignConfig({ hideFrame }),
+      setColoredOffLights: (coloredOffLights: boolean) =>
+        updateSignConfig({ coloredOffLights }),
     }),
-    [menuOpen, input, updateSignConfigDebounced, resetSignConfig]
+    [
+      menuOpen,
+      input,
+      updateSignConfig,
+      updateSignConfigDebounced,
+      resetSignConfig,
+    ]
   );
 
   const cssVariables = useMemo(
@@ -70,8 +83,8 @@ const App: FC = () => {
               // width={500}
               fullWidth
               colorHue={colorHue}
-              // hideFrame
-              // coloredOffLights={false}
+              hideFrame={hideFrame}
+              coloredOffLights={coloredOffLights}
               updatesPerSecond={SPEED_TO_UPDATES[animationSpeed]}
             />
           </LEDContainer>
