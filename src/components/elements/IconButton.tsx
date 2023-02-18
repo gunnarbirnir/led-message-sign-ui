@@ -1,15 +1,18 @@
 import React, { FC, useMemo, CSSProperties } from "react";
 import styled from "styled-components";
+import cn from "classnames";
 
 import { BaseProps } from "../../types";
 
 interface IconButtonProps extends BaseProps {
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
+  iconSize?: number;
   onClick: () => void;
 }
 
 const IconButton: FC<IconButtonProps> = ({
   icon: Icon,
+  iconSize = 20,
   className,
   style,
   onClick,
@@ -17,22 +20,22 @@ const IconButton: FC<IconButtonProps> = ({
   const cssVariables = useMemo(
     () =>
       ({
-        "--button-icon-size": "20px",
+        "--button-icon-size": `${iconSize}px`,
         "--icon-button-saturation": "100%",
         "--icon-button-lightness": "70%",
         "--icon-button-active-saturation": "100%",
         "--icon-button-active-lightness": "60%",
       } as CSSProperties),
-    []
+    [iconSize]
   );
 
   return (
     <StyledIconButton
       onClick={onClick}
-      className={className}
+      className={cn("d-f jc-c ai-c", className)}
       style={{ ...cssVariables, ...style }}
     >
-      <IconContainer className="pos-a">
+      <IconContainer>
         <Icon />
       </IconContainer>
     </StyledIconButton>
@@ -64,11 +67,8 @@ const StyledIconButton = styled.button`
 `;
 
 const IconContainer = styled.div`
-  top: calc((var(--icon-button-size) - var(--button-icon-size)) / 2);
-  left: calc((var(--icon-button-size) - var(--button-icon-size)) / 2);
   height: var(--button-icon-size);
   width: var(--button-icon-size);
-
   svg {
     fill: var(--black);
   }

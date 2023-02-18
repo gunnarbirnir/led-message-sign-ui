@@ -1,4 +1,4 @@
-import React, { FC, useMemo, CSSProperties } from "react";
+import React, { FC, useMemo } from "react";
 import styled from "styled-components";
 import cn from "classnames";
 
@@ -8,22 +8,15 @@ import { IconButton } from "./elements";
 
 const MenuButton: FC = () => {
   const { menuOpen, setMenuOpen } = useAppContext();
-
-  const cssVariables = useMemo(
-    () =>
-      ({
-        "--button-icon-size": `${menuOpen ? 20 : 25}px`,
-      } as CSSProperties),
-    [menuOpen]
-  );
   const icon = useMemo(() => (menuOpen ? CloseIcon : SettingsIcon), [menuOpen]);
+  const iconSize = useMemo(() => (menuOpen ? 20 : 25), [menuOpen]);
 
   return (
     <StyledIconButton
       icon={icon}
+      iconSize={iconSize}
       onClick={() => setMenuOpen(!menuOpen)}
       className={cn("pos-a", { "menu-button-open": menuOpen })}
-      style={cssVariables}
     />
   );
 };
