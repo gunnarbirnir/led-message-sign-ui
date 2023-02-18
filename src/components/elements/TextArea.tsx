@@ -14,8 +14,10 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       () =>
         ({
           "--text-area-height": `${height}px`,
-          "--text-area-focus-lightness": "60%",
-          "--text-area-selection-lightness": "60%",
+          "--text-area-focus-saturation": "50%",
+          "--text-area-focus-lightness": "50%",
+          "--text-area-selection-saturation": "100%",
+          "--text-area-selection-lightness": "70%",
         } as CSSProperties),
       [height]
     );
@@ -44,11 +46,17 @@ const StyledTextArea = styled.textarea`
   padding: 5px 10px;
 
   &:focus {
-    border-color: hsl(var(--color-hue) 100% var(--text-area-focus-lightness));
+    border-color: hsl(
+      var(--color-hue) var(--text-area-focus-saturation)
+        var(--text-area-focus-lightness)
+    );
   }
   &::selection {
     color: var(--black);
-    background: hsl(var(--color-hue) 100% var(--text-area-selection-lightness));
+    background: hsl(
+      var(--color-hue) var(--text-area-selection-saturation)
+        var(--text-area-selection-lightness)
+    );
   }
 `;
 
