@@ -1,40 +1,59 @@
-import React, {
-  FC,
-  useMemo,
-  useState,
-  useCallback,
-  CSSProperties,
-  useEffect,
-} from "react";
+import React, { FC, useMemo, useState, CSSProperties } from "react";
 import styled from "styled-components";
-import { debounce } from "debounce";
 import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
 
+import { useSignConfig } from "./hooks";
+import { AppContext } from "./context";
 import { Menu, MenuButton } from "./components";
-import { MENU_TRANSITION_DURATION } from "./constants";
-
-const DEFAULT_TEXT = "LED Message Sign";
+import {
+  MENU_TRANSITION_DURATION,
+  SPEED_TO_UPDATES,
+  SIGN_DEFAULT_WIDTH,
+} from "./constants";
 
 const App: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [textInput, setTextInput] = useState("");
-  const [signText, setSignText] = useState("");
-  const [hueInput, setHueInput] = useState(0);
-  const [colorHue, setColorHue] = useState(0);
+  const {
+    input,
+    signText,
+    colorHue,
+    animationSpeed,
+    signHeight,
+    fullWidth,
+    hideFrame,
+    coloredOffLights,
+    updateSignConfig,
+    updateSignConfigDebounced,
+    resetSignConfig,
+  } = useSignConfig();
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const textParam = urlParams.get("text");
-    const hueParam = urlParams.get("hue");
-    const hueNum = parseInt(hueParam || "0");
-    const initText = textParam ? decodeURIComponent(textParam) : DEFAULT_TEXT;
-    const hue = isNaN(hueNum) ? 0 : hueNum;
-
-    setSignText(initText);
-    setTextInput(initText);
-    setColorHue(hue);
-    setHueInput(hue);
-  }, []);
+  const contextValue = useMemo(
+    () => ({
+      menuOpen,
+      ...input,
+      setMenuOpen,
+      resetSignConfig,
+      setSignText: (signText: string) =>
+        updateSignConfigDebounced({ signText }),
+      setColorHue: (colorHue: number) =>
+        updateSignConfigDebounced({ colorHue }),
+      setAnimationSpeed: (animationSpeed: number) =>
+        updateSignConfigDebounced({ animationSpeed }),
+      setSignHeight: (signHeight: number) =>
+        updateSignConfigDebounced({ signHeight }),
+      setFullWidth: (fullWidth: boolean) => updateSignConfig({ fullWidth }),
+      setHideFrame: (hideFrame: boolean) => updateSignConfig({ hideFrame }),
+      setColoredOffLights: (coloredOffLights: boolean) =>
+        updateSignConfig({ coloredOffLights }),
+    }),
+    [
+      menuOpen,
+      input,
+      updateSignConfig,
+      updateSignConfigDebounced,
+      resetSignConfig,
+    ]
+  );
 
   const cssVariables = useMemo(
     () =>
@@ -42,7 +61,6 @@ const App: FC = () => {
         "--black": "hsl(0deg 0% 0%)",
         "--white": "hsl(0deg 0% 100%)",
         "--color-hue": `${colorHue}deg`,
-        "--sign-max-width": "1000px",
         "--main-content-min-width": "300px",
         "--border-width": "2px",
         "--border-color": "hsl(0deg 0% 20%)",
@@ -53,81 +71,33 @@ const App: FC = () => {
         "--padding-2": "10px",
         "--padding-3": "20px",
         "--padding-4": "40px",
+        "--icon-button-size": "40px",
       } as CSSProperties),
     [colorHue]
   );
 
-  const updateSignText = useMemo(
-    () =>
-      debounce((text: string) => {
-        setSignText(text);
-        const url = new URL(window.location.href);
-        if (text) {
-          url.searchParams.set("text", encodeURIComponent(text.toLowerCase()));
-        } else {
-          url.searchParams.delete("text");
-        }
-        window.history.replaceState({}, "", url);
-      }, 500),
-    []
-  );
-
-  const updateColorHue = useMemo(
-    () =>
-      debounce((hue: number) => {
-        setColorHue(hue);
-        const url = new URL(window.location.href);
-        if (hue) {
-          url.searchParams.set("hue", hue.toString());
-        } else {
-          url.searchParams.delete("hue");
-        }
-        window.history.replaceState({}, "", url);
-      }, 500),
-    []
-  );
-
-  const updateTextInput = useCallback(
-    (text: string) => {
-      setTextInput(text);
-      updateSignText(text);
-    },
-    [updateSignText]
-  );
-
-  const updateHueInput = useCallback(
-    (hue: number) => {
-      setHueInput(hue);
-      updateColorHue(hue);
-    },
-    [updateColorHue]
-  );
-
   return (
-    <AppContainer className="d-f fd-c" style={cssVariables}>
-      <MainContent className="f-1 d-f fd-c jc-c ai-c pos-r">
-        <LEDContainer className="w-100">
-          <LEDMessageSign
-            text={signText}
-            // height={50}
-            // width={500}
-            fullWidth
-            colorHue={colorHue}
-            // hideFrame
-            // coloredOffLights={false}
-            // updatesPerSecond={1}
-          />
-        </LEDContainer>
-        <MenuButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-      </MainContent>
-      <Menu
-        text={textInput}
-        menuOpen={menuOpen}
-        colorHue={hueInput}
-        setText={updateTextInput}
-        setColorHue={updateHueInput}
-      />
-    </AppContainer>
+    <AppContext.Provider value={contextValue}>
+      <AppContainer className="d-f fd-c" style={cssVariables}>
+        <MainContent className="f-1 d-f fd-c jc-c ai-c pos-r">
+          <div className="d-f fd-r jc-c w-100">
+            <LEDMessageSign
+              text={signText}
+              height={signHeight}
+              // TODO: Handle smaller screens
+              width={SIGN_DEFAULT_WIDTH}
+              fullWidth={fullWidth}
+              colorHue={colorHue}
+              hideFrame={hideFrame}
+              coloredOffLights={coloredOffLights}
+              updatesPerSecond={SPEED_TO_UPDATES[animationSpeed]}
+            />
+          </div>
+          <MenuButton />
+        </MainContent>
+        <Menu />
+      </AppContainer>
+    </AppContext.Provider>
   );
 };
 
@@ -140,10 +110,6 @@ const AppContainer = styled.div`
 
 const MainContent = styled.main`
   min-height: var(--main-content-min-width);
-`;
-
-const LEDContainer = styled.div`
-  max-width: var(--sign-max-width);
 `;
 
 export default App;

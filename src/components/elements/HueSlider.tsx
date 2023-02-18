@@ -1,14 +1,13 @@
 import React, { FC } from "react";
 import styled from "styled-components";
 
-import { HUE_DEGREES } from "../constants";
-import Slider, {
-  SliderTrack,
-  SliderRange,
-  IProps as ISliderProps,
-} from "./Slider";
+import { HUE_DEGREES } from "../../constants";
+import Slider, { SliderTrack, SliderRange } from "./Slider";
 
-type IProps = Omit<ISliderProps, "min" | "max">;
+interface HueSliderProps {
+  value: number;
+  onChange: (value: number) => void;
+}
 
 // TODO: Move to utils?
 const generateHueGradient = () => {
@@ -19,10 +18,16 @@ const generateHueGradient = () => {
   return `linear-gradient(to right${gradientColors})`;
 };
 
-const HueSlider: FC<IProps> = (props) => {
+const HueSlider: FC<HueSliderProps> = (props) => {
   return (
     <StyledHueSlider>
-      <Slider {...props} min={0} max={HUE_DEGREES} />
+      <Slider
+        {...props}
+        label="color"
+        displayValue={false}
+        min={0}
+        max={HUE_DEGREES}
+      />
     </StyledHueSlider>
   );
 };

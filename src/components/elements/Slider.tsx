@@ -2,14 +2,23 @@ import React, { FC, useMemo, CSSProperties } from "react";
 import styled from "styled-components";
 import * as Slider from "@radix-ui/react-slider";
 
-export interface IProps {
+interface SliderProps {
   value: number;
+  label?: string;
+  displayValue?: boolean;
   min?: number;
   max?: number;
   onChange: (value: number) => void;
 }
 
-const SliderComp: FC<IProps> = ({ value, min, max, onChange }) => {
+const SliderComp: FC<SliderProps> = ({
+  value,
+  label,
+  displayValue = true,
+  min,
+  max,
+  onChange,
+}) => {
   const cssVariables = useMemo(
     () =>
       ({
@@ -22,37 +31,53 @@ const SliderComp: FC<IProps> = ({ value, min, max, onChange }) => {
   );
 
   return (
-    <StyledSlider
-      value={[value]}
-      min={min}
-      max={max}
-      className="pos-r d-f ai-c"
-      style={cssVariables}
-      onValueChange={(values) => onChange(values[0])}
-    >
-      <SliderTrack className="pos-r f-1">
-        <SliderRange className="pos-a h-100" />
-      </SliderTrack>
-      <SliderThumb />
-    </StyledSlider>
+    <div className="d-f fd-c w-100">
+      {label && (
+        <SliderLabel>
+          {label}
+          {displayValue ? `: ${value}` : ""}
+        </SliderLabel>
+      )}
+      <StyledSlider
+        value={[value]}
+        min={min}
+        max={max}
+        className="pos-r d-f ai-c"
+        style={cssVariables}
+        onValueChange={(values) => onChange(values[0])}
+      >
+        <SliderTrack className="pos-r f-1">
+          <SliderRange className="pos-a h-100" />
+        </SliderTrack>
+        <SliderThumb />
+      </StyledSlider>
+    </div>
   );
 };
 
 const StyledSlider = styled(Slider.Root)`
   height: var(--slider-height);
-  width: 100%;
   user-select: none;
   touch-action: none;
+`;
+
+const SliderLabel = styled.p`
+  text-transform: uppercase;
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 600;
+  padding-bottom: var(--padding-2);
 `;
 
 export const SliderTrack = styled(Slider.Track)`
   background-color: var(--border-color);
   height: var(--slider-track-height);
   border-radius: calc(var(--slider-track-height) / 2);
+  cursor: pointer;
 `;
 
 export const SliderRange = styled(Slider.Range)`
-  background-color: hsl(var(--color-hue) 100% 50%);
+  background-color: hsl(var(--color-hue) 50% 50%);
   border-radius: calc(var(--slider-track-height) / 2);
 `;
 
