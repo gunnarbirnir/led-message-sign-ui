@@ -6,13 +6,11 @@ import { BaseProps } from "../../types";
 
 interface IconButtonProps extends BaseProps {
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
-  iconSize?: number;
   onClick: () => void;
 }
 
 const IconButton: FC<IconButtonProps> = ({
   icon: Icon,
-  iconSize = 20,
   className,
   style,
   onClick,
@@ -20,13 +18,13 @@ const IconButton: FC<IconButtonProps> = ({
   const cssVariables = useMemo(
     () =>
       ({
-        "--button-icon-size": `${iconSize}px`,
+        "--button-icon-size": "20px",
         "--icon-button-saturation": "100%",
         "--icon-button-lightness": "70%",
         "--icon-button-active-saturation": "100%",
         "--icon-button-active-lightness": "60%",
       } as CSSProperties),
-    [iconSize]
+    []
   );
 
   return (
@@ -35,9 +33,7 @@ const IconButton: FC<IconButtonProps> = ({
       className={cn("d-f jc-c ai-c", className)}
       style={{ ...cssVariables, ...style }}
     >
-      <IconContainer>
-        <Icon />
-      </IconContainer>
+      <Icon />
     </StyledIconButton>
   );
 };
@@ -64,12 +60,9 @@ const StyledIconButton = styled.button`
         var(--icon-button-active-lightness)
     );
   }
-`;
-
-const IconContainer = styled.div`
-  height: var(--button-icon-size);
-  width: var(--button-icon-size);
   svg {
+    height: var(--button-icon-size);
+    width: var(--button-icon-size);
     fill: var(--black);
   }
 `;
