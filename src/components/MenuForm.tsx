@@ -51,7 +51,7 @@ const MenuForm: FC = () => {
           value={animationSpeed}
           label="Speed"
           min={1}
-          max={10}
+          max={60}
           onChange={setAnimationSpeed}
         />
         <Slider

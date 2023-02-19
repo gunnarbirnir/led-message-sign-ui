@@ -5,11 +5,7 @@ import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
 import { useSignConfig } from "./hooks";
 import { AppContext } from "./context";
 import { Menu, MenuButton } from "./components";
-import {
-  MENU_TRANSITION_DURATION,
-  SPEED_TO_UPDATES,
-  SIGN_DEFAULT_WIDTH,
-} from "./constants";
+import { MENU_TRANSITION_DURATION, SIGN_DEFAULT_WIDTH } from "./constants";
 
 const App: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -82,6 +78,7 @@ const App: FC = () => {
         <MainContent className="f-1 d-f fd-c jc-c ai-c pos-r">
           <div className="d-f fd-r jc-c w-100">
             <LEDMessageSign
+              // TODO: Translate Icelandic letters?
               text={signText}
               height={signHeight}
               // TODO: Handle smaller screens
@@ -90,7 +87,7 @@ const App: FC = () => {
               colorHue={colorHue}
               hideFrame={hideFrame}
               coloredOffLights={coloredOffLights}
-              updatesPerSecond={SPEED_TO_UPDATES[animationSpeed]}
+              updatesPerSecond={animationSpeed}
             />
           </div>
           <MenuButton />
