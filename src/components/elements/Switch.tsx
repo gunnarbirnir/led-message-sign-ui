@@ -23,6 +23,7 @@ const SwitchComp: FC<SwitchProps> = ({
       <StyledSwitch checked={checked} onCheckedChange={onCheckedChange}>
         <SwitchThumb />
       </StyledSwitch>
+      {/* TODO: Make label clickable */}
       <p>{label}</p>
     </SwitchContainer>
   );
