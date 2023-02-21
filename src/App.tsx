@@ -5,7 +5,11 @@ import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
 import { useSignConfig } from "./hooks";
 import { AppContext } from "./context";
 import { Menu, MenuButton } from "./components";
-import { MENU_TRANSITION_DURATION, SIGN_DEFAULT_WIDTH } from "./constants";
+import {
+  MENU_TRANSITION_DURATION,
+  SIGN_DEFAULT_WIDTH,
+  SPEED_TO_FPU,
+} from "./constants";
 
 const App: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -87,7 +91,7 @@ const App: FC = () => {
               colorHue={colorHue}
               hideFrame={hideFrame}
               coloredOffLights={coloredOffLights}
-              updatesPerSecond={animationSpeed}
+              animationFramesPerUpdate={SPEED_TO_FPU[animationSpeed]}
             />
           </div>
           <MenuButton />
