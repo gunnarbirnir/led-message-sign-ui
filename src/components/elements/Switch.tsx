@@ -41,7 +41,7 @@ const SwitchContainer = styled.div`
 const StyledSwitch = styled(Switch.Root)`
   width: 42px;
   height: 25px;
-  background-color: var(--border-color);
+  background-color: var(--dark-gray);
   border-radius: 1000px;
   position: relative;
 

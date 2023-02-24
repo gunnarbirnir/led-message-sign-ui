@@ -108,3 +108,7 @@ textarea {
 .pos-a {
   position: absolute;
 }
+
+.d-g {
+  display: grid;
+}

@@ -60,17 +60,29 @@ const App: FC = () => {
       ({
         "--black": "hsl(0deg 0% 0%)",
         "--white": "hsl(0deg 0% 100%)",
+        "--dark-gray": "hsl(0deg 0% 20%)",
+        "--background-color": "hsl(0deg 0% 3%)",
         "--color-hue": `${colorHue}deg`,
-        "--main-content-min-width": "300px",
+        "--primary-color-light": `hsl(${colorHue}deg 100% 70%)`,
+        "--primary-color-faded": `hsl(${colorHue}deg 50% 50%)`,
+        "--primary-color-saturated": `hsl(${colorHue}deg 100% 60%)`,
+        "--main-content-min-height": "300px",
         "--border-width": "2px",
-        "--border-color": "hsl(0deg 0% 20%)",
         "--border-radius": "5px",
+        "--border-radius-round": "1000px",
         "--menu-transition-duration": `${MENU_TRANSITION_DURATION}ms`,
         "--menu-transition-timing-function": "ease-out",
         "--padding-1": "5px",
         "--padding-2": "10px",
         "--padding-3": "20px",
         "--padding-4": "40px",
+        "--font-size-sm": "12px",
+        "--font-size-md": "14px",
+        "--font-size-lg": "15px",
+        "--font-weight-light": "500",
+        "--font-weight-medium": "600",
+        "--box-shadow-normal": "0 2px 10px 2px hsl(0deg 0% 0% / 0.8)",
+        "--box-shadow-solid": "0 0 0 5px hsl(0deg 0% 0% / 0.5)",
         "--icon-button-size": "40px",
       } as CSSProperties),
     [colorHue]
@@ -80,20 +92,18 @@ const App: FC = () => {
     <AppContext.Provider value={contextValue}>
       <AppContainer className="d-f fd-c" style={cssVariables}>
         <MainContent className="f-1 d-f fd-c jc-c ai-c pos-r">
-          <div className="d-f fd-r jc-c w-100">
-            <LEDMessageSign
-              // TODO: Translate Icelandic letters?
-              text={signText}
-              height={signHeight}
-              // TODO: Handle smaller screens
-              width={SIGN_DEFAULT_WIDTH}
-              fullWidth={fullWidth}
-              colorHue={colorHue}
-              hideFrame={hideFrame}
-              coloredOffLights={coloredOffLights}
-              animationFramesPerUpdate={SPEED_TO_FPU[animationSpeed]}
-            />
-          </div>
+          <LEDMessageSign
+            // TODO: Translate Icelandic letters?
+            text={signText}
+            height={signHeight}
+            // TODO: Handle smaller screens
+            width={SIGN_DEFAULT_WIDTH}
+            fullWidth={fullWidth}
+            colorHue={colorHue}
+            hideFrame={hideFrame}
+            coloredOffLights={coloredOffLights}
+            animationFramesPerUpdate={SPEED_TO_FPU[animationSpeed]}
+          />
           <MenuButton />
         </MainContent>
         <Menu />
@@ -110,7 +120,7 @@ const AppContainer = styled.div`
 `;
 
 const MainContent = styled.main`
-  min-height: var(--main-content-min-width);
+  min-height: var(--main-content-min-height);
 `;
 
 export default App;

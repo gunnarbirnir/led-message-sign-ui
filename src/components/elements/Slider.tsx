@@ -1,4 +1,4 @@
-import React, { FC, useMemo, CSSProperties } from "react";
+import React, { FC, useMemo, CSSProperties, useCallback } from "react";
 import styled from "styled-components";
 import * as Slider from "@radix-ui/react-slider";
 
@@ -24,14 +24,19 @@ const SliderComp: FC<SliderProps> = ({
       ({
         "--slider-height": "20px",
         "--slider-track-height": "6px",
-        "--slider-thumb-shadow-color": "hsl(0deg 0% 0% / 0.8)",
-        "--slider-thumb-active-shadow-color": "hsl(0deg 0% 0% / 0.5)",
       } as CSSProperties),
     []
   );
 
+  const handleValueChange = useCallback(
+    (values: number[]) => {
+      onChange(values[0]);
+    },
+    [onChange]
+  );
+
   return (
-    <div className="d-f fd-c w-100">
+    <div className="d-f fd-c">
       {label && (
         <SliderLabel>
           {label}
@@ -44,7 +49,7 @@ const SliderComp: FC<SliderProps> = ({
         max={max}
         className="pos-r d-f ai-c"
         style={cssVariables}
-        onValueChange={(values) => onChange(values[0])}
+        onValueChange={handleValueChange}
       >
         <SliderTrack className="pos-r f-1">
           <SliderRange className="pos-a h-100" />
@@ -64,21 +69,21 @@ const StyledSlider = styled(Slider.Root)`
 const SliderLabel = styled.p`
   text-transform: uppercase;
   color: var(--white);
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
   padding-bottom: var(--padding-2);
 `;
 
 export const SliderTrack = styled(Slider.Track)`
-  background-color: var(--border-color);
+  background-color: var(--dark-gray);
   height: var(--slider-track-height);
-  border-radius: calc(var(--slider-track-height) / 2);
+  border-radius: var(--border-radius-round);
   cursor: pointer;
 `;
 
 export const SliderRange = styled(Slider.Range)`
-  background-color: hsl(var(--color-hue) 50% 50%);
-  border-radius: calc(var(--slider-track-height) / 2);
+  background-color: var(--primary-color-faded);
+  border-radius: var(--border-radius-round);
 `;
 
 export const SliderThumb = styled(Slider.Thumb)`
@@ -86,13 +91,13 @@ export const SliderThumb = styled(Slider.Thumb)`
   cursor: grab;
   width: var(--slider-height);
   height: var(--slider-height);
-  border-radius: calc(var(--slider-height) / 2);
+  border-radius: var(--border-radius-round);
   background-color: var(--white);
-  box-shadow: 0 2px 10px 2px var(--slider-thumb-shadow-color);
+  box-shadow: var(--box-shadow-normal);
 
   &:active {
     cursor: grabbing;
-    box-shadow: 0 0 0 5px var(--slider-thumb-active-shadow-color);
+    box-shadow: var(--box-shadow-solid);
   }
   &:focus {
     outline: none;

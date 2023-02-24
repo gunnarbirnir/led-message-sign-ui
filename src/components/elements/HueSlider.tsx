@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import styled from "styled-components";
 
 import { HUE_DEGREES } from "../../constants";
+import { generateHueGradient } from "../../utils";
 import Slider, { SliderTrack, SliderRange } from "./Slider";
 
 interface HueSliderProps {
@@ -9,21 +10,12 @@ interface HueSliderProps {
   onChange: (value: number) => void;
 }
 
-// TODO: Move to utils?
-const generateHueGradient = () => {
-  let gradientColors = "";
-  for (let d = 0; d <= HUE_DEGREES; d++) {
-    gradientColors += `, hsl(${d}deg 100% 60%)`;
-  }
-  return `linear-gradient(to right${gradientColors})`;
-};
-
 const HueSlider: FC<HueSliderProps> = (props) => {
   return (
     <StyledHueSlider>
       <Slider
         {...props}
-        label="color"
+        label="Color"
         displayValue={false}
         min={0}
         max={HUE_DEGREES}

@@ -13,14 +13,13 @@ const Menu: FC = () => {
       ({
         "--menu-height": "400px",
         "--menu-content-max-width": "1000px",
-        "--menu-background-color": "hsl(0deg 0% 3%)",
       } as CSSProperties),
     []
   );
 
   return (
     <StyledMenu className={cn({ "menu-open": menuOpen })} style={cssVariables}>
-      <MenuContainer className="h-100 d-f jc-c">
+      <MenuContainer className="h-100 d-f fd-r jc-c">
         <MenuContent className="w-100">
           <MenuForm />
         </MenuContent>
@@ -32,7 +31,7 @@ const Menu: FC = () => {
 const StyledMenu = styled.aside`
   z-index: 0;
   height: 0px;
-  transition-property: height, padding;
+  transition-property: height;
   transition-duration: var(--menu-transition-duration);
   transition-timing-function: var(--menu-transition-timing-function);
   overflow: hidden;
@@ -43,8 +42,8 @@ const StyledMenu = styled.aside`
 `;
 
 const MenuContainer = styled.div`
-  background-color: var(--menu-background-color);
-  border-top: var(--border-width) solid var(--border-color);
+  background-color: var(--background-color);
+  border-top: var(--border-width) solid var(--dark-gray);
   overflow-y: auto;
   padding: var(--padding-3);
   padding-bottom: var(--padding-4);

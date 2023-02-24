@@ -1,4 +1,4 @@
-import React, { FC, useMemo, CSSProperties } from "react";
+import React, { FC, useMemo, CSSProperties, useCallback } from "react";
 import styled from "styled-components";
 import cn from "classnames";
 
@@ -18,10 +18,14 @@ const MenuButton: FC = () => {
     [menuOpen]
   );
 
+  const handleSetMenuOpen = useCallback(() => {
+    setMenuOpen(!menuOpen);
+  }, [menuOpen, setMenuOpen]);
+
   return (
     <StyledIconButton
       icon={icon}
-      onClick={() => setMenuOpen(!menuOpen)}
+      onClick={handleSetMenuOpen}
       style={cssVariables}
       className={cn("pos-a", { "menu-button-open": menuOpen })}
     />
