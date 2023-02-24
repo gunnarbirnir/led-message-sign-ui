@@ -56,12 +56,15 @@ const StyledTextArea = styled.textarea`
   resize: none;
   padding: var(--padding-1) var(--padding-2);
 
-  &:focus {
+  :focus {
     border-color: var(--primary-color-faded);
   }
-  &::selection {
+  ::selection {
     color: var(--black);
     background: var(--primary-color-light);
+  }
+  ::placeholder {
+    color: var(--medium-gray);
   }
 `;
 

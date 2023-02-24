@@ -65,14 +65,8 @@ const StyledSwitch = styled(Switch.Root)`
   background-color: var(--dark-gray);
   border-radius: var(--border-radius-round);
 
-  &:hover {
-    background-color: var(--medium-gray);
-  }
   &[data-state="checked"] {
     background-color: var(--primary-color-faded);
-    &:hover {
-      background-color: var(--primary-color-light);
-    }
   }
 `;
 

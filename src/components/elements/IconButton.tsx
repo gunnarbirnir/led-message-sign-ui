@@ -40,11 +40,11 @@ const StyledIconButton = styled.button`
   border-radius: var(--border-radius-round);
   background-color: var(--primary-color-light);
 
-  &:hover {
+  :hover {
     transform: scale(1.05);
     background-color: var(--primary-color-saturated);
   }
-  &:active {
+  :active {
     transform: scale(0.95);
     background-color: var(--primary-color-saturated);
   }

@@ -95,11 +95,11 @@ export const SliderThumb = styled(Slider.Thumb)`
   background-color: var(--white);
   box-shadow: var(--box-shadow-normal);
 
-  &:active {
+  :active {
     cursor: grabbing;
     box-shadow: var(--box-shadow-solid);
   }
-  &:focus {
+  :focus {
     outline: none;
   }
 `;

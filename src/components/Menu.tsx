@@ -51,7 +51,7 @@ const MenuContainer = styled.div`
 
 const MenuContent = styled.div`
   max-width: var(--menu-content-max-width);
-  &:after {
+  :after {
     content: "";
     display: block;
     height: var(--padding-4);

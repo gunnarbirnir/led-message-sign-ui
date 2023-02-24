@@ -29,11 +29,11 @@ const StyledButton = styled.button`
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-medium);
 
-  &:hover {
+  :hover {
     transform: scale(1.02);
     background-color: var(--primary-color-saturated);
   }
-  &:active {
+  :active {
     transform: scale(0.98);
     background-color: var(--primary-color-saturated);
   }

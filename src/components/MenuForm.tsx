@@ -34,7 +34,7 @@ const MenuForm: FC = () => {
   }, [resetSignConfig, textAreaRef]);
 
   return (
-    <StyledMenuForm className="d-f fd-r">
+    <StyledMenuForm>
       <FormMain>
         <div>
           <TextArea
@@ -88,18 +88,18 @@ const MenuForm: FC = () => {
 };
 
 const StyledMenuForm = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 1fr;
   gap: var(--padding-4);
 `;
 
 const FormMain = styled.div`
-  flex: 2;
   > * {
     padding-bottom: var(--padding-3);
   }
 `;
 
 const FormOther = styled.div`
-  flex: 1;
   > * {
     padding-bottom: var(--padding-3);
   }
@@ -108,7 +108,8 @@ const FormOther = styled.div`
 const FormButtons = styled.div`
   padding-top: var(--padding-3);
   gap: var(--padding-3);
-  > * {
+
+  button {
     flex: 1;
   }
 `;
