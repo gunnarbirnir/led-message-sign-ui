@@ -37,6 +37,7 @@ const StyledIconButton = styled(IconButton)`
   right: var(--padding-4);
   bottom: var(--padding-4);
   transition-property: bottom;
+  will-change: bottom;
   transition-duration: var(--menu-transition-duration);
   transition-timing-function: var(--menu-transition-timing-function);
 

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useId, useMemo, CSSProperties } from "react";
 import styled from "styled-components";
 import cn from "classnames";
 import * as Switch from "@radix-ui/react-switch";
@@ -18,50 +18,75 @@ const SwitchComp: FC<SwitchProps> = ({
   className,
   style,
 }) => {
+  const switchId = useId();
+  const cssVariables = useMemo(
+    () =>
+      ({
+        "--switch-height": "25px",
+        "--switch-width": "42px",
+        "--switch-thumb-size": "21px",
+        "--switch-border-width": "2px",
+        "--switch-transition-duration": "100ms",
+      } as CSSProperties),
+    []
+  );
+
   return (
-    <SwitchContainer className={cn("d-f fd-r", className)} style={style}>
-      <StyledSwitch checked={checked} onCheckedChange={onCheckedChange}>
+    <SwitchContainer
+      className={cn("d-f fd-r", className)}
+      style={{ ...cssVariables, ...style }}
+    >
+      <StyledSwitch
+        id={switchId}
+        checked={checked}
+        onCheckedChange={onCheckedChange}
+        className="pos-r"
+      >
         <SwitchThumb />
       </StyledSwitch>
-      {/* TODO: Make label clickable */}
-      <p>{label}</p>
+      <SwitchLabel htmlFor={switchId}>{label}</SwitchLabel>
     </SwitchContainer>
   );
 };
 
 const SwitchContainer = styled.div`
   gap: var(--padding-2);
-  p {
-    color: var(--white);
-    font-size: 15px;
-    font-weight: 500;
-  }
+`;
+
+const SwitchLabel = styled.label`
+  color: var(--white);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-light);
 `;
 
 const StyledSwitch = styled(Switch.Root)`
-  width: 42px;
-  height: 25px;
+  height: var(--switch-height);
+  width: var(--switch-width);
   background-color: var(--dark-gray);
-  border-radius: 1000px;
-  position: relative;
+  border-radius: var(--border-radius-round);
 
   &[data-state="checked"] {
-    background-color: hsl(var(--color-hue) 50% 50%);
+    background-color: var(--primary-color-faded);
   }
 `;
 
 const SwitchThumb = styled(Switch.Thumb)`
   display: block;
-  width: 21px;
-  height: 21px;
+  width: var(--switch-thumb-size);
+  height: var(--switch-thumb-size);
   background-color: var(--black);
-  border-radius: 1000px;
-  transition: transform 100ms;
-  transform: translateX(2px);
+  border-radius: var(--border-radius-round);
+  transition: transform var(--switch-transition-duration);
+  transform: translateX(var(--switch-border-width));
   will-change: transform;
 
   &[data-state="checked"] {
-    transform: translateX(19px);
+    transform: translateX(
+      calc(
+        var(--switch-width) - var(--switch-thumb-size) -
+          var(--switch-border-width)
+      )
+    );
   }
 `;
 

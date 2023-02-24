@@ -7,7 +7,6 @@ import MenuForm from "./MenuForm";
 
 const Menu: FC = () => {
   const { menuOpen } = useAppContext();
-
   const cssVariables = useMemo(
     () =>
       ({
@@ -32,6 +31,7 @@ const StyledMenu = styled.aside`
   z-index: 0;
   height: 0px;
   transition-property: height;
+  will-change: height;
   transition-duration: var(--menu-transition-duration);
   transition-timing-function: var(--menu-transition-timing-function);
   overflow: hidden;
