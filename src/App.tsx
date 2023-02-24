@@ -10,6 +10,7 @@ import {
   SIGN_DEFAULT_WIDTH,
   SPEED_TO_FPU,
 } from "./constants";
+import { formatSignText } from "./utils";
 
 const App: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -26,6 +27,7 @@ const App: FC = () => {
     updateSignConfigDebounced,
     resetSignConfig,
   } = useSignConfig();
+  const formattedSignText = useMemo(() => formatSignText(signText), [signText]);
 
   const contextValue = useMemo(
     () => ({
@@ -94,8 +96,7 @@ const App: FC = () => {
       <AppContainer className="d-f fd-c" style={cssVariables}>
         <MainContent className="f-1 d-f fd-c jc-c ai-c pos-r">
           <LEDMessageSign
-            // TODO: Translate Icelandic letters?
-            text={signText}
+            text={formattedSignText}
             height={signHeight}
             // TODO: Handle smaller screens
             width={SIGN_DEFAULT_WIDTH}

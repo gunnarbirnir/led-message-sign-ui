@@ -7,3 +7,15 @@ export const generateHueGradient = () => {
   }
   return `linear-gradient(to right${gradientColors})`;
 };
+
+export const formatSignText = (text: string) => {
+  return text
+    .toLowerCase()
+    .replaceAll("á", "a")
+    .replaceAll("ð", "d")
+    .replaceAll("é", "e")
+    .replaceAll("í", "i")
+    .replaceAll("ó", "o")
+    .replaceAll("ú", "u")
+    .replaceAll("ý", "y");
+};

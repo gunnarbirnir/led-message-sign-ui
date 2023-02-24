@@ -10,7 +10,6 @@ const CopyLinkButton: FC = () => {
   );
 
   const handleCopyLink = useCallback(() => {
-    // TODO: Clean up params?
     navigator.clipboard.writeText(window.location.href);
     setButtonClicked(true);
   }, []);
