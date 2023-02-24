@@ -2,7 +2,7 @@ import React, { FC, useMemo, useState, CSSProperties } from "react";
 import styled from "styled-components";
 import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
 
-import { useSignConfig } from "./hooks";
+import { useSignConfig, useWindowDimensions } from "./hooks";
 import { AppContext } from "./context";
 import { Menu, MenuButton } from "./components";
 import {
@@ -27,7 +27,13 @@ const App: FC = () => {
     updateSignConfigDebounced,
     resetSignConfig,
   } = useSignConfig();
+
+  const { width: windowWidth } = useWindowDimensions();
   const formattedSignText = useMemo(() => formatSignText(signText), [signText]);
+  const signFullWidth = useMemo(
+    () => fullWidth || windowWidth < SIGN_DEFAULT_WIDTH,
+    [fullWidth, windowWidth]
+  );
 
   const contextValue = useMemo(
     () => ({
@@ -86,6 +92,8 @@ const App: FC = () => {
         "--font-weight-medium": "600",
         "--box-shadow-normal": "0 2px 10px 2px hsl(0deg 0% 0% / 0.8)",
         "--box-shadow-solid": "0 0 0 5px hsl(0deg 0% 0% / 0.5)",
+        "--media-query-sign": "1000px",
+        "--media-query-mobile": "600px",
         "--icon-button-size": "40px",
       } as CSSProperties),
     [colorHue]
@@ -98,9 +106,8 @@ const App: FC = () => {
           <LEDMessageSign
             text={formattedSignText}
             height={signHeight}
-            // TODO: Handle smaller screens
             width={SIGN_DEFAULT_WIDTH}
-            fullWidth={fullWidth}
+            fullWidth={signFullWidth}
             colorHue={colorHue}
             hideFrame={hideFrame}
             coloredOffLights={coloredOffLights}
