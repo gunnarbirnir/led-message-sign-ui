@@ -60,6 +60,7 @@ const App: FC = () => {
       ({
         "--black": "hsl(0deg 0% 0%)",
         "--white": "hsl(0deg 0% 100%)",
+        "--medium-gray": "hsl(0deg 0% 30%)",
         "--dark-gray": "hsl(0deg 0% 20%)",
         "--background-color": "hsl(0deg 0% 3%)",
         "--color-hue": `${colorHue}deg`,
