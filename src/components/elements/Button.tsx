@@ -2,6 +2,7 @@ import React, { FC, PropsWithChildren } from "react";
 import styled from "styled-components";
 
 import { BaseProps } from "../../types";
+import { MEDIA_QUERY } from "../../constants";
 
 interface ButtonProps extends BaseProps {
   onClick: () => void;
@@ -31,11 +32,16 @@ const StyledButton = styled.button`
 
   :hover {
     transform: scale(1.02);
-    background-color: var(--primary-color-saturated);
   }
   :active {
     transform: scale(0.98);
-    background-color: var(--primary-color-saturated);
+  }
+
+  @media (min-width: ${MEDIA_QUERY.MOBILE}) {
+    :hover,
+    :active {
+      background-color: var(--primary-color-saturated);
+    }
   }
 `;
 

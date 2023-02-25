@@ -3,6 +3,7 @@ import styled from "styled-components";
 import cn from "classnames";
 
 import { BaseProps } from "../../types";
+import { MEDIA_QUERY } from "../../constants";
 
 interface IconButtonProps extends BaseProps {
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
@@ -42,16 +43,21 @@ const StyledIconButton = styled.button`
 
   :hover {
     transform: scale(1.05);
-    background-color: var(--primary-color-saturated);
   }
   :active {
     transform: scale(0.95);
-    background-color: var(--primary-color-saturated);
   }
   svg {
     height: var(--button-icon-size);
     width: var(--button-icon-size);
     fill: var(--black);
+  }
+
+  @media (min-width: ${MEDIA_QUERY.MOBILE}) {
+    :hover,
+    :active {
+      background-color: var(--primary-color-saturated);
+    }
   }
 `;
 
