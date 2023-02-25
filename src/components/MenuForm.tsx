@@ -2,6 +2,7 @@ import React, { FC, useCallback } from "react";
 import styled from "styled-components";
 
 import { useAppContext, useFocusSignTextArea } from "../hooks";
+import { MEDIA_QUERY } from "../constants";
 import { TextArea, HueSlider, Slider, Button, Switch } from "./elements";
 import CopyLinkButton from "./CopyLinkButton";
 
@@ -91,6 +92,14 @@ const StyledMenuForm = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: var(--padding-4);
+
+  @media (max-width: ${MEDIA_QUERY.SIGN_WIDTH}) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: ${MEDIA_QUERY.MOBILE}) {
+    grid-template-columns: 1fr;
+    gap: var(--padding-3);
+  }
 `;
 
 const FormMain = styled.div`

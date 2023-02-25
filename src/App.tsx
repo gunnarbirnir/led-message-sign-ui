@@ -92,8 +92,6 @@ const App: FC = () => {
         "--font-weight-medium": "600",
         "--box-shadow-normal": "0 2px 10px 2px hsl(0deg 0% 0% / 0.8)",
         "--box-shadow-solid": "0 0 0 5px hsl(0deg 0% 0% / 0.5)",
-        "--media-query-sign": "1000px",
-        "--media-query-mobile": "600px",
         "--icon-button-size": "40px",
       } as CSSProperties),
     [colorHue]

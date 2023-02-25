@@ -3,6 +3,7 @@ import styled from "styled-components";
 import cn from "classnames";
 
 import { useAppContext } from "../hooks";
+import { MEDIA_QUERY } from "../constants";
 import MenuForm from "./MenuForm";
 
 const Menu: FC = () => {
@@ -35,9 +36,19 @@ const StyledMenu = styled.aside`
   transition-duration: var(--menu-transition-duration);
   transition-timing-function: var(--menu-transition-timing-function);
   overflow: hidden;
-
   &.menu-open {
     height: var(--menu-height);
+  }
+
+  @media (max-width: ${MEDIA_QUERY.MOBILE}) {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 0%;
+    width: 100%;
+    &.menu-open {
+      height: 100%;
+    }
   }
 `;
 
@@ -47,6 +58,11 @@ const MenuContainer = styled.div`
   overflow-y: auto;
   padding: var(--padding-3);
   padding-bottom: var(--padding-4);
+
+  @media (max-width: ${MEDIA_QUERY.MOBILE}) {
+    border-width: 0px;
+    padding-top: 90px;
+  }
 `;
 
 const MenuContent = styled.div`

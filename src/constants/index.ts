@@ -1,4 +1,8 @@
 export const SIGN_DEFAULT_WIDTH = 1000;
+export const MENU_TRANSITION_DURATION = 200;
+export const HUE_DEGREES = 360;
+export const SPEED_TO_FPU = [0, 30, 20, 15, 10, 8, 6, 4, 3, 2, 1];
+
 export const INIT_SIGN_CONFIG = {
   signText: "",
   colorHue: 0,
@@ -8,6 +12,8 @@ export const INIT_SIGN_CONFIG = {
   hideFrame: false,
   coloredOffLights: true,
 };
-export const MENU_TRANSITION_DURATION = 200;
-export const HUE_DEGREES = 360;
-export const SPEED_TO_FPU = [0, 30, 20, 15, 10, 8, 6, 4, 3, 2, 1];
+
+export const MEDIA_QUERY = {
+  SIGN_WIDTH: `${SIGN_DEFAULT_WIDTH}px`,
+  MOBILE: "800px",
+};

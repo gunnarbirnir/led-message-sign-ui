@@ -4,6 +4,7 @@ import cn from "classnames";
 
 import { useAppContext } from "../hooks";
 import { SettingsIcon, CloseIcon } from "../icons";
+import { MEDIA_QUERY } from "../constants";
 import { IconButton } from "./elements";
 
 const MenuButton: FC = () => {
@@ -49,6 +50,14 @@ const StyledIconButton = styled(IconButton)`
   svg {
     height: var(--menu-button-icon-size);
     width: var(--menu-button-icon-size);
+  }
+
+  @media (max-width: ${MEDIA_QUERY.MOBILE}) {
+    transition-property: none;
+    &.menu-button-open {
+      right: var(--padding-3);
+      top: var(--padding-3);
+    }
   }
 `;
 
