@@ -23,19 +23,19 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
 const StyledButton = styled.button`
   color: var(--black);
   padding: var(--padding-2) var(--padding-3);
-  border-radius: 1000px;
-  background-color: hsl(var(--color-hue) 100% 70%);
+  border-radius: var(--border-radius-round);
+  background-color: var(--primary-color-light);
   text-transform: uppercase;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
 
-  &:hover {
+  :hover {
     transform: scale(1.02);
-    background-color: hsl(var(--color-hue) 100% 60%);
+    background-color: var(--primary-color-saturated);
   }
-  &:active {
+  :active {
     transform: scale(0.98);
-    background-color: hsl(var(--color-hue) 100% 60%);
+    background-color: var(--primary-color-saturated);
   }
 `;
 

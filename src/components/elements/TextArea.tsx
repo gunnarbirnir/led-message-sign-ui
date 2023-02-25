@@ -1,4 +1,10 @@
-import React, { useMemo, CSSProperties, forwardRef } from "react";
+import React, {
+  useMemo,
+  CSSProperties,
+  forwardRef,
+  useCallback,
+  ChangeEvent,
+} from "react";
 import styled from "styled-components";
 
 interface TextAreaProps {
@@ -15,23 +21,27 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       () =>
         ({
           "--text-area-height": `${height}px`,
-          "--text-area-focus-saturation": "50%",
-          "--text-area-focus-lightness": "50%",
-          "--text-area-selection-saturation": "100%",
-          "--text-area-selection-lightness": "70%",
         } as CSSProperties),
       [height]
     );
 
+    const handleChange = useCallback(
+      (event: ChangeEvent<HTMLTextAreaElement>) => {
+        onChange(event.target.value);
+      },
+      [onChange]
+    );
+
     return (
       <StyledTextArea
-        value={value}
         ref={ref}
+        value={value}
         spellCheck="false"
+        className="w-100"
         style={cssVariables}
         maxLength={maxLength}
         placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={handleChange}
       />
     );
   }
@@ -39,26 +49,22 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 
 const StyledTextArea = styled.textarea`
   height: var(--text-area-height);
-  width: 100%;
   border-radius: var(--border-radius);
   background-color: var(--black);
-  border: var(--border-width) solid var(--border-color);
+  border: var(--border-width) solid var(--dark-gray);
   color: var(--white);
   resize: none;
   padding: var(--padding-1) var(--padding-2);
 
-  &:focus {
-    border-color: hsl(
-      var(--color-hue) var(--text-area-focus-saturation)
-        var(--text-area-focus-lightness)
-    );
+  :focus {
+    border-color: var(--primary-color-faded);
   }
-  &::selection {
+  ::selection {
     color: var(--black);
-    background: hsl(
-      var(--color-hue) var(--text-area-selection-saturation)
-        var(--text-area-selection-lightness)
-    );
+    background: var(--primary-color-light);
+  }
+  ::placeholder {
+    color: var(--medium-gray);
   }
 `;
 

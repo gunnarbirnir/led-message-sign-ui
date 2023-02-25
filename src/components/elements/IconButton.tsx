@@ -19,10 +19,6 @@ const IconButton: FC<IconButtonProps> = ({
     () =>
       ({
         "--button-icon-size": "20px",
-        "--icon-button-saturation": "100%",
-        "--icon-button-lightness": "70%",
-        "--icon-button-active-saturation": "100%",
-        "--icon-button-active-lightness": "60%",
       } as CSSProperties),
     []
   );
@@ -41,24 +37,16 @@ const IconButton: FC<IconButtonProps> = ({
 const StyledIconButton = styled.button`
   height: var(--icon-button-size);
   width: var(--icon-button-size);
-  border-radius: calc(var(--icon-button-size) / 2);
-  background-color: hsl(
-    var(--color-hue) var(--icon-button-saturation) var(--icon-button-lightness)
-  );
+  border-radius: var(--border-radius-round);
+  background-color: var(--primary-color-light);
 
-  &:hover {
+  :hover {
     transform: scale(1.05);
-    background-color: hsl(
-      var(--color-hue) var(--icon-button-active-saturation)
-        var(--icon-button-active-lightness)
-    );
+    background-color: var(--primary-color-saturated);
   }
-  &:active {
+  :active {
     transform: scale(0.95);
-    background-color: hsl(
-      var(--color-hue) var(--icon-button-active-saturation)
-        var(--icon-button-active-lightness)
-    );
+    background-color: var(--primary-color-saturated);
   }
   svg {
     height: var(--button-icon-size);

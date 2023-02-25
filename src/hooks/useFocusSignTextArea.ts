@@ -7,14 +7,8 @@ const useFocusSignTextArea = (menuOpen: boolean) => {
 
   useEffect(() => {
     let focusTimeout: NodeJS.Timeout | null = null;
-    const clearFocusTimeout = () => {
-      if (focusTimeout) {
-        clearTimeout(focusTimeout);
-      }
-    };
 
     if (menuOpen) {
-      clearFocusTimeout();
       focusTimeout = setTimeout(() => {
         if (textAreaRef?.current) {
           const tempVal = textAreaRef.current.value;
@@ -26,7 +20,11 @@ const useFocusSignTextArea = (menuOpen: boolean) => {
       }, MENU_TRANSITION_DURATION);
     }
 
-    return clearFocusTimeout;
+    return () => {
+      if (focusTimeout) {
+        clearTimeout(focusTimeout);
+      }
+    };
   }, [menuOpen]);
 
   return textAreaRef;

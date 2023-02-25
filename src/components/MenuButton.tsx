@@ -1,9 +1,10 @@
-import React, { FC, useMemo, CSSProperties } from "react";
+import React, { FC, useMemo, CSSProperties, useCallback } from "react";
 import styled from "styled-components";
 import cn from "classnames";
 
 import { useAppContext } from "../hooks";
 import { SettingsIcon, CloseIcon } from "../icons";
+import { MEDIA_QUERY } from "../constants";
 import { IconButton } from "./elements";
 
 const MenuButton: FC = () => {
@@ -18,10 +19,14 @@ const MenuButton: FC = () => {
     [menuOpen]
   );
 
+  const handleSetMenuOpen = useCallback(() => {
+    setMenuOpen(!menuOpen);
+  }, [menuOpen, setMenuOpen]);
+
   return (
     <StyledIconButton
       icon={icon}
-      onClick={() => setMenuOpen(!menuOpen)}
+      onClick={handleSetMenuOpen}
       style={cssVariables}
       className={cn("pos-a", { "menu-button-open": menuOpen })}
     />
@@ -33,6 +38,7 @@ const StyledIconButton = styled(IconButton)`
   right: var(--padding-4);
   bottom: var(--padding-4);
   transition-property: bottom;
+  will-change: bottom;
   transition-duration: var(--menu-transition-duration);
   transition-timing-function: var(--menu-transition-timing-function);
 
@@ -44,6 +50,14 @@ const StyledIconButton = styled(IconButton)`
   svg {
     height: var(--menu-button-icon-size);
     width: var(--menu-button-icon-size);
+  }
+
+  @media (max-width: ${MEDIA_QUERY.MOBILE}) {
+    transition-property: none;
+    &.menu-button-open {
+      right: var(--padding-3);
+      top: var(--padding-3);
+    }
   }
 `;
 
