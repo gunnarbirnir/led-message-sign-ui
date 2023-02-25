@@ -64,7 +64,7 @@ const MenuForm: FC = () => {
         />
       </FormMain>
       <FormOther>
-        <Switch
+        <FullWidthSwitch
           label="Full Width"
           checked={fullWidth}
           onCheckedChange={setFullWidth}
@@ -111,6 +111,12 @@ const FormMain = styled.div`
 const FormOther = styled.div`
   > * {
     padding-bottom: var(--padding-3);
+  }
+`;
+
+const FullWidthSwitch = styled(Switch)`
+  @media (max-width: ${MEDIA_QUERY.SIGN_WIDTH}) {
+    display: none;
   }
 `;
 

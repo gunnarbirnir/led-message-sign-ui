@@ -53,11 +53,9 @@ const StyledIconButton = styled(IconButton)`
   }
 
   @media (max-width: ${MEDIA_QUERY.MOBILE}) {
+    top: var(--padding-3);
+    right: var(--padding-3);
     transition-property: none;
-    &.menu-button-open {
-      right: var(--padding-3);
-      top: var(--padding-3);
-    }
   }
 `;
 
