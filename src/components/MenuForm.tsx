@@ -86,9 +86,7 @@ const MenuForm: FC = () => {
         />
         <FormButtons>
           <CopyLinkButton />
-          <Button onClick={handleReset} variant="outlined">
-            Reset
-          </Button>
+          <Button onClick={handleReset}>Reset</Button>
         </FormButtons>
         <MobileFormButtons>
           <Button onClick={handleCloseMenu} className="apply-button">
