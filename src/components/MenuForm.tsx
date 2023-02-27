@@ -85,10 +85,6 @@ const MenuForm: FC = () => {
           onCheckedChange={setColoredOffLights}
         />
         <FormButtons>
-          <CopyLinkButton />
-          <Button onClick={handleReset}>Reset</Button>
-        </FormButtons>
-        <MobileFormButtons>
           <Button onClick={handleCloseMenu} className="apply-button">
             Apply
           </Button>
@@ -96,7 +92,7 @@ const MenuForm: FC = () => {
           <Button onClick={handleReset} variant="outlined">
             Reset
           </Button>
-        </MobileFormButtons>
+        </FormButtons>
       </FormOther>
     </StyledMenuForm>
   );
@@ -139,28 +135,19 @@ const FormButtons = styled.div`
   grid-template-columns: 1fr 1fr;
   padding-top: var(--padding-3);
   gap: var(--padding-3);
-
-  @media (max-width: ${MEDIA_QUERY.MOBILE}) {
+  .apply-button {
     display: none;
   }
-`;
-
-const MobileFormButtons = styled.div`
-  display: none;
-  grid-template-columns: repeat(3, 1fr);
-  padding-top: var(--padding-3);
-  gap: var(--padding-3);
-  .apply-button {
-    order: 3;
-  }
 
   @media (max-width: ${MEDIA_QUERY.MOBILE}) {
-    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    .apply-button {
+      display: block;
+    }
   }
   @media (max-width: ${MEDIA_QUERY.SMALL_MOBILE}) {
     grid-template-columns: 1fr 1fr;
     .apply-button {
-      order: unset;
       grid-column-end: span 2;
     }
   }
