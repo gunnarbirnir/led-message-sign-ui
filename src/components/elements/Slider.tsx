@@ -72,6 +72,7 @@ const SliderLabel = styled.p`
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   padding-bottom: var(--padding-2);
+  -webkit-text-size-adjust: 100%;
 `;
 
 export const SliderTrack = styled(Slider.Track)`

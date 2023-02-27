@@ -2,7 +2,11 @@ import React, { FC, useCallback, useState, useMemo, useEffect } from "react";
 
 import { Button } from "./elements";
 
-const CopyLinkButton: FC = () => {
+interface CopyLinkButtonProps {
+  variant?: "filled" | "outlined";
+}
+
+const CopyLinkButton: FC<CopyLinkButtonProps> = ({ variant }) => {
   const [buttonClicked, setButtonClicked] = useState(false);
   const buttonText = useMemo(
     () => (buttonClicked ? "Link copied" : "Copy Link"),
@@ -30,7 +34,11 @@ const CopyLinkButton: FC = () => {
     };
   }, [buttonClicked]);
 
-  return <Button onClick={handleCopyLink}>{buttonText}</Button>;
+  return (
+    <Button onClick={handleCopyLink} variant={variant}>
+      {buttonText}
+    </Button>
+  );
 };
 
 export default CopyLinkButton;

@@ -17,5 +17,6 @@ export const formatSignText = (text: string) => {
     .replaceAll("í", "i")
     .replaceAll("ó", "o")
     .replaceAll("ú", "u")
-    .replaceAll("ý", "y");
+    .replaceAll("ý", "y")
+    .replaceAll("ö", "o");
 };

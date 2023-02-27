@@ -53,6 +53,7 @@ const StyledIconButton = styled(IconButton)`
   }
 
   @media (max-width: ${MEDIA_QUERY.MOBILE}) {
+    position: fixed;
     top: var(--padding-3);
     right: var(--padding-3);
     transition-property: none;

@@ -16,6 +16,7 @@ const MenuForm: FC = () => {
     fullWidth,
     hideFrame,
     coloredOffLights,
+    setMenuOpen,
     resetSignConfig,
     setSignText,
     setColorHue,
@@ -33,6 +34,10 @@ const MenuForm: FC = () => {
       textAreaRef.current.focus();
     }
   }, [resetSignConfig, textAreaRef]);
+
+  const handleCloseMenu = useCallback(() => {
+    setMenuOpen(false);
+  }, [setMenuOpen]);
 
   return (
     <StyledMenuForm>
@@ -79,10 +84,21 @@ const MenuForm: FC = () => {
           checked={coloredOffLights}
           onCheckedChange={setColoredOffLights}
         />
-        <FormButtons className="d-f fd-r">
+        <FormButtons>
           <CopyLinkButton />
-          <Button onClick={handleReset}>Reset</Button>
+          <Button onClick={handleReset} variant="outlined">
+            Reset
+          </Button>
         </FormButtons>
+        <MobileFormButtons>
+          <Button onClick={handleCloseMenu} className="apply-button">
+            Apply
+          </Button>
+          <CopyLinkButton variant="outlined" />
+          <Button onClick={handleReset} variant="outlined">
+            Reset
+          </Button>
+        </MobileFormButtons>
       </FormOther>
     </StyledMenuForm>
   );
@@ -121,11 +137,34 @@ const FullWidthSwitch = styled(Switch)`
 `;
 
 const FormButtons = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   padding-top: var(--padding-3);
   gap: var(--padding-3);
 
-  button {
-    flex: 1;
+  @media (max-width: ${MEDIA_QUERY.MOBILE}) {
+    display: none;
+  }
+`;
+
+const MobileFormButtons = styled.div`
+  display: none;
+  grid-template-columns: repeat(3, 1fr);
+  padding-top: var(--padding-3);
+  gap: var(--padding-3);
+  .apply-button {
+    order: 3;
+  }
+
+  @media (max-width: ${MEDIA_QUERY.MOBILE}) {
+    display: grid;
+  }
+  @media (max-width: ${MEDIA_QUERY.SMALL_MOBILE}) {
+    grid-template-columns: 1fr 1fr;
+    .apply-button {
+      order: unset;
+      grid-column-end: span 2;
+    }
   }
 `;
 

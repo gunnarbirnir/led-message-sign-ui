@@ -61,9 +61,7 @@ const MenuContainer = styled.div`
 
   @media (max-width: ${MEDIA_QUERY.MOBILE}) {
     border-width: 0px;
-    padding-top: calc(
-      var(--icon-button-size) + var(--padding-3) + var(--padding-4)
-    );
+    padding-top: calc(var(--icon-button-size) + 2 * var(--padding-3));
   }
 `;
 
