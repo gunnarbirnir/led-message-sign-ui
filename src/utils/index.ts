@@ -20,3 +20,8 @@ export const formatSignText = (text: string) => {
     .replaceAll("ý", "y")
     .replaceAll("ö", "o");
 };
+
+export const sanitizeMinMaxValue =
+  (minVal: number, maxVal: number) => (val: number) => {
+    return Math.max(Math.min(val, maxVal), minVal);
+  };

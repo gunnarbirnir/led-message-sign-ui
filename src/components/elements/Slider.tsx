@@ -19,6 +19,18 @@ const SliderComp: FC<SliderProps> = ({
   max,
   onChange,
 }) => {
+  const sliderValue = useMemo(() => {
+    let sanitizedValue = value;
+
+    if (min) {
+      sanitizedValue = Math.max(min, sanitizedValue);
+    }
+    if (max) {
+      sanitizedValue = Math.min(max, sanitizedValue);
+    }
+    return sanitizedValue;
+  }, [max, min, value]);
+
   const cssVariables = useMemo(
     () =>
       ({
@@ -40,11 +52,11 @@ const SliderComp: FC<SliderProps> = ({
       {label && (
         <SliderLabel>
           {label}
-          {displayValue ? `: ${value}` : ""}
+          {displayValue ? `: ${sliderValue}` : ""}
         </SliderLabel>
       )}
       <StyledSlider
-        value={[value]}
+        value={[sliderValue]}
         min={min}
         max={max}
         className="pos-r d-f ai-c"

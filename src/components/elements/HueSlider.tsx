@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import styled from "styled-components";
 
-import { HUE_DEGREES } from "../../constants";
+import { MIN_COLOR_HUE, MAX_COLOR_HUE } from "../../constants";
 import { generateHueGradient } from "../../utils";
 import Slider, { SliderTrack, SliderRange } from "./Slider";
 
@@ -17,8 +17,8 @@ const HueSlider: FC<HueSliderProps> = (props) => {
         {...props}
         label="Color"
         displayValue={false}
-        min={0}
-        max={HUE_DEGREES}
+        min={MIN_COLOR_HUE}
+        max={MAX_COLOR_HUE}
       />
     </StyledHueSlider>
   );

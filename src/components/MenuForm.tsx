@@ -2,7 +2,13 @@ import React, { FC, useCallback } from "react";
 import styled from "styled-components";
 
 import { useAppContext, useFocusSignTextArea } from "../hooks";
-import { MEDIA_QUERY } from "../constants";
+import {
+  MEDIA_QUERY,
+  MIN_SPEED,
+  MAX_SPEED,
+  MIN_HEIGHT,
+  MAX_HEIGHT,
+} from "../constants";
 import { TextArea, HueSlider, Slider, Button, Switch } from "./elements";
 import CopyLinkButton from "./CopyLinkButton";
 
@@ -56,15 +62,15 @@ const MenuForm: FC = () => {
         <Slider
           value={animationSpeed}
           label="Speed"
-          min={1}
-          max={10}
+          min={MIN_SPEED}
+          max={MAX_SPEED}
           onChange={setAnimationSpeed}
         />
         <Slider
           value={signHeight}
           label="Height"
-          min={50}
-          max={250}
+          min={MIN_HEIGHT}
+          max={MAX_HEIGHT}
           onChange={setSignHeight}
         />
       </FormMain>
