@@ -26,3 +26,13 @@ export const MEDIA_QUERY = {
   MOBILE: "800px",
   SMALL_MOBILE: "600px",
 };
+
+export const URL_PARAM_KEYS: Record<string, string> = {
+  signText: "text",
+  colorHue: "color",
+  animationSpeed: "speed",
+  signHeight: "height",
+  fullWidth: "full-width",
+  hideFrame: "hide-frame",
+  coloredOffLights: "colored-off-lights",
+};

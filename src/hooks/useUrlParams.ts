@@ -3,6 +3,7 @@ import { useCallback, useEffect } from "react";
 import { SignConfigUpdate } from "../reducers/signConfigReducer";
 import {
   INIT_SIGN_CONFIG,
+  URL_PARAM_KEYS,
   MIN_COLOR_HUE,
   MAX_COLOR_HUE,
   MIN_SPEED,
@@ -16,44 +17,22 @@ type SignConfigKey = keyof SignConfigUpdate;
 
 const DEFAULT_SIGN_TEXT = "LED Message Sign";
 
-const URL_PARAMS: Record<
-  string,
-  {
-    key: string;
-    sanitizeVal?: (val: any) => any;
-  }
-> = {
-  signText: { key: "text" },
-  colorHue: {
-    key: "color",
-    sanitizeVal: sanitizeMinMaxValue(MIN_COLOR_HUE, MAX_COLOR_HUE),
-  },
-  animationSpeed: {
-    key: "speed",
-    sanitizeVal: sanitizeMinMaxValue(MIN_SPEED, MAX_SPEED),
-  },
-  signHeight: {
-    key: "height",
-    sanitizeVal: sanitizeMinMaxValue(MIN_HEIGHT, MAX_HEIGHT),
-  },
-  fullWidth: { key: "full-width" },
-  hideFrame: { key: "hide-frame" },
-  coloredOffLights: { key: "colored-off-lights" },
+const sanitizeParamVal: Record<string, (val: any) => any> = {
+  colorHue: sanitizeMinMaxValue(MIN_COLOR_HUE, MAX_COLOR_HUE),
+  animationSpeed: sanitizeMinMaxValue(MIN_SPEED, MAX_SPEED),
+  signHeight: sanitizeMinMaxValue(MIN_HEIGHT, MAX_HEIGHT),
 };
-
-// TODO: Remove unused params when copying link
-// TODO: Write tests
 
 const useUrlParams = (initConfig: (config: SignConfigUpdate) => void) => {
   useEffect(() => {
     const paramValues: Record<string, unknown> = {};
     const urlParams = new URLSearchParams(window.location.search);
 
-    Object.keys(URL_PARAMS).forEach((confKey) => {
-      const paramKey = URL_PARAMS[confKey].key;
+    Object.keys(URL_PARAM_KEYS).forEach((confKey) => {
+      const paramKey = URL_PARAM_KEYS[confKey];
       const paramVal = urlParams.get(paramKey);
       const confType = typeof INIT_SIGN_CONFIG[confKey as SignConfigKey];
-      const sanitizeParamVal = URL_PARAMS[confKey].sanitizeVal;
+      const sanitizeVal = sanitizeParamVal[confKey];
       let parsedParamVal: unknown = paramVal;
 
       if (paramVal) {
@@ -66,8 +45,8 @@ const useUrlParams = (initConfig: (config: SignConfigUpdate) => void) => {
           parsedParamVal = paramVal === "true";
         }
 
-        paramValues[confKey] = sanitizeParamVal
-          ? sanitizeParamVal(parsedParamVal)
+        paramValues[confKey] = sanitizeVal
+          ? sanitizeVal(parsedParamVal)
           : parsedParamVal;
       }
     });
@@ -78,8 +57,8 @@ const useUrlParams = (initConfig: (config: SignConfigUpdate) => void) => {
   const updateUrlParams = useCallback((config: SignConfigUpdate) => {
     const url = new URL(window.location.href);
 
-    Object.keys(URL_PARAMS).forEach((confKey) => {
-      const paramKey = URL_PARAMS[confKey].key;
+    Object.keys(URL_PARAM_KEYS).forEach((confKey) => {
+      const paramKey = URL_PARAM_KEYS[confKey];
       const confValue = config[confKey as SignConfigKey];
       const initConfVal = INIT_SIGN_CONFIG[confKey as SignConfigKey];
       let formattedVal = "";
