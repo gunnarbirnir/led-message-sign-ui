@@ -53,7 +53,7 @@ const MenuForm: FC = () => {
             ref={textAreaRef}
             value={signText}
             height={100}
-            maxLength={100}
+            maxLength={1000}
             placeholder="Sign Text"
             onChange={setSignText}
           />
