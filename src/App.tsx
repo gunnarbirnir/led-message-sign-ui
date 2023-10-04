@@ -8,7 +8,8 @@ import { Menu, MenuButton } from "./components";
 import {
   MENU_TRANSITION_DURATION,
   SIGN_DEFAULT_WIDTH,
-  SPEED_TO_FPU,
+  MAX_SPEED,
+  MIN_SPEED,
 } from "./constants";
 import { formatSignText } from "./utils";
 
@@ -33,6 +34,10 @@ const App: FC = () => {
   const signFullWidth = useMemo(
     () => fullWidth || windowWidth < SIGN_DEFAULT_WIDTH,
     [fullWidth, windowWidth]
+  );
+  const animationFramesPerUpdate = useMemo(
+    () => MAX_SPEED + MIN_SPEED - animationSpeed,
+    [animationSpeed]
   );
 
   const contextValue = useMemo(
@@ -109,7 +114,7 @@ const App: FC = () => {
             colorHue={colorHue}
             hideFrame={hideFrame}
             coloredOffLights={coloredOffLights}
-            animationFramesPerUpdate={SPEED_TO_FPU[animationSpeed]}
+            animationFramesPerUpdate={animationFramesPerUpdate}
           />
           <MenuButton />
         </MainContent>
