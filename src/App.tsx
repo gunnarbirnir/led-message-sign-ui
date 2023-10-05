@@ -2,7 +2,11 @@ import React, { FC, useMemo, useState, CSSProperties } from "react";
 import styled from "styled-components";
 import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
 
-import { useSignConfig, useWindowDimensions } from "./hooks";
+import {
+  useSignConfig,
+  useWindowDimensions,
+  useFullWidthToggleInProgress,
+} from "./hooks";
 import { AppContext } from "./context";
 import { Menu, MenuButton } from "./components";
 import {
@@ -31,6 +35,11 @@ const App: FC = () => {
   } = useSignConfig();
 
   const { width: windowWidth } = useWindowDimensions();
+  const fullWidthToggleInProgress = useFullWidthToggleInProgress(fullWidth);
+  const hideSign = useMemo(
+    () => !initialized || fullWidthToggleInProgress,
+    [initialized, fullWidthToggleInProgress]
+  );
   const formattedSignText = useMemo(() => formatSignText(signText), [signText]);
   const signFullWidth = useMemo(
     () => fullWidth || windowWidth < SIGN_DEFAULT_WIDTH,
@@ -105,13 +114,7 @@ const App: FC = () => {
 
   return (
     <AppContext.Provider value={contextValue}>
-      <AppContainer
-        className="d-f fd-c"
-        style={{
-          ...cssVariables,
-          visibility: initialized ? "visible" : "hidden",
-        }}
-      >
+      <AppContainer className="d-f fd-c" style={cssVariables}>
         <MainContent className="f-1 d-f fd-c jc-c ai-c pos-r">
           <LEDMessageSign
             text={formattedSignText}
@@ -122,6 +125,7 @@ const App: FC = () => {
             hideFrame={hideFrame}
             coloredOffLights={coloredOffLights}
             animationFramesPerUpdate={animationFramesPerUpdate}
+            style={{ visibility: hideSign ? "hidden" : "visible" }}
           />
           <MenuButton />
         </MainContent>
