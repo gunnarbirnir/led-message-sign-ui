@@ -17,6 +17,7 @@ const App: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const {
     input,
+    initialized,
     signText,
     colorHue,
     animationSpeed,
@@ -104,7 +105,13 @@ const App: FC = () => {
 
   return (
     <AppContext.Provider value={contextValue}>
-      <AppContainer className="d-f fd-c" style={cssVariables}>
+      <AppContainer
+        className="d-f fd-c"
+        style={{
+          ...cssVariables,
+          visibility: initialized ? "visible" : "hidden",
+        }}
+      >
         <MainContent className="f-1 d-f fd-c jc-c ai-c pos-r">
           <LEDMessageSign
             text={formattedSignText}
