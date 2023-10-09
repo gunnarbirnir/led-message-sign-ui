@@ -49,6 +49,10 @@ const App: FC = () => {
     () => MAX_SPEED + MIN_SPEED - animationSpeed,
     [animationSpeed]
   );
+  const signStyle = useMemo(
+    () => ({ visibility: hideSign ? "hidden" : "visible" } as CSSProperties),
+    [hideSign]
+  );
 
   const contextValue = useMemo(
     () => ({
@@ -125,7 +129,7 @@ const App: FC = () => {
             hideFrame={hideFrame}
             coloredOffLights={coloredOffLights}
             animationFramesPerUpdate={animationFramesPerUpdate}
-            style={{ visibility: hideSign ? "hidden" : "visible" }}
+            style={signStyle}
           />
           <MenuButton />
         </MainContent>
