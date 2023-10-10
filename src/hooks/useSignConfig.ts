@@ -8,14 +8,18 @@ import signConfigReducer, {
 import { INIT_SIGN_CONFIG } from "../constants";
 import useUrlParams from "./useUrlParams";
 
-const INIT_STATE = { ...INIT_SIGN_CONFIG, input: INIT_SIGN_CONFIG };
+const INIT_STATE = {
+  ...INIT_SIGN_CONFIG,
+  input: INIT_SIGN_CONFIG,
+  initialized: false,
+};
 
 const useSignConfig = () => {
   const [state, dispatch] = useReducer(signConfigReducer, INIT_STATE);
 
   const initConfig = useCallback((config: SignConfigUpdate) => {
     dispatch({
-      type: SignConfigActionType.UPDATE_CONFIG_AND_INPUT,
+      type: SignConfigActionType.INIT_SIGN_CONFIG,
       payload: config,
     });
   }, []);

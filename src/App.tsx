@@ -2,13 +2,18 @@ import React, { FC, useMemo, useState, CSSProperties } from "react";
 import styled from "styled-components";
 import { LEDMessageSign } from "@gunnarbirnir/led-message-sign";
 
-import { useSignConfig, useWindowDimensions } from "./hooks";
+import {
+  useSignConfig,
+  useWindowDimensions,
+  useFullWidthToggleInProgress,
+} from "./hooks";
 import { AppContext } from "./context";
 import { Menu, MenuButton } from "./components";
 import {
   MENU_TRANSITION_DURATION,
   SIGN_DEFAULT_WIDTH,
-  SPEED_TO_FPU,
+  MAX_SPEED,
+  MIN_SPEED,
 } from "./constants";
 import { formatSignText } from "./utils";
 
@@ -16,6 +21,7 @@ const App: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const {
     input,
+    initialized,
     signText,
     colorHue,
     animationSpeed,
@@ -29,10 +35,23 @@ const App: FC = () => {
   } = useSignConfig();
 
   const { width: windowWidth } = useWindowDimensions();
+  const fullWidthToggleInProgress = useFullWidthToggleInProgress(fullWidth);
+  const hideSign = useMemo(
+    () => !initialized || fullWidthToggleInProgress,
+    [initialized, fullWidthToggleInProgress]
+  );
   const formattedSignText = useMemo(() => formatSignText(signText), [signText]);
   const signFullWidth = useMemo(
     () => fullWidth || windowWidth < SIGN_DEFAULT_WIDTH,
     [fullWidth, windowWidth]
+  );
+  const animationFramesPerUpdate = useMemo(
+    () => MAX_SPEED + MIN_SPEED - animationSpeed,
+    [animationSpeed]
+  );
+  const signStyle = useMemo(
+    () => ({ visibility: hideSign ? "hidden" : "visible" } as CSSProperties),
+    [hideSign]
   );
 
   const contextValue = useMemo(
@@ -109,7 +128,8 @@ const App: FC = () => {
             colorHue={colorHue}
             hideFrame={hideFrame}
             coloredOffLights={coloredOffLights}
-            animationFramesPerUpdate={SPEED_TO_FPU[animationSpeed]}
+            animationFramesPerUpdate={animationFramesPerUpdate}
+            style={signStyle}
           />
           <MenuButton />
         </MainContent>

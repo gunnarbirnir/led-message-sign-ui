@@ -12,12 +12,19 @@ export type SignConfigUpdate = Partial<SignConfig>;
 
 interface SignConfigState extends SignConfig {
   input: SignConfig;
+  initialized: boolean;
 }
 
 export enum SignConfigActionType {
+  INIT_SIGN_CONFIG = "INIT_SIGN_CONFIG",
   UPDATE_SIGN_CONFIG = "UPDATE_SIGN_CONFIG",
   UPDATE_CONFIG_INPUT = "UPDATE_CONFIG_INPUT",
   UPDATE_CONFIG_AND_INPUT = "UPDATE_CONFIG_AND_INPUT",
+}
+
+interface InitSignConfigAction {
+  type: SignConfigActionType.INIT_SIGN_CONFIG;
+  payload: SignConfigUpdate;
 }
 
 interface UpdateSignConfigAction {
@@ -36,6 +43,7 @@ interface UpdateConfigAndInputAction {
 }
 
 type SignConfigAction =
+  | InitSignConfigAction
   | UpdateSignConfigAction
   | UpdateConfigInputAction
   | UpdateConfigAndInputAction;
@@ -47,6 +55,16 @@ const signConfigReducer = (
   const { type, payload } = action;
 
   switch (type) {
+    case SignConfigActionType.INIT_SIGN_CONFIG:
+      return {
+        ...state,
+        ...payload,
+        initialized: true,
+        input: {
+          ...state.input,
+          ...payload,
+        },
+      };
     case SignConfigActionType.UPDATE_SIGN_CONFIG:
       return {
         ...state,
