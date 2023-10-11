@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@gunnarbirnir/led-message-sign": "0.2.1",
+    "@gunnarbirnir/led-message-sign": "0.2.2",
     "@radix-ui/react-slider": "^1.1.0",
     "@radix-ui/react-switch": "^1.0.1",
     "classnames": "^2.3.2",
