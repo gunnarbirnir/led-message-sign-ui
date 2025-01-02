@@ -11,7 +11,7 @@ const Menu: FC = () => {
   const cssVariables = useMemo(
     () =>
       ({
-        "--menu-height": "400px",
+        "--menu-height": "570px",
         "--menu-content-max-width": "1000px",
       } as CSSProperties),
     []

@@ -25,7 +25,7 @@ const HueSlider: FC<HueSliderProps> = (props) => {
 };
 
 const StyledHueSlider = styled.div`
-  && {
+  &&& {
     ${SliderTrack} {
       background-color: transparent;
       background-image: ${generateHueGradient()};

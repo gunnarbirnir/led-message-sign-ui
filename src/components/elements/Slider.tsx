@@ -8,6 +8,7 @@ interface SliderProps {
   displayValue?: boolean;
   min?: number;
   max?: number;
+  disabled?: boolean;
   onChange: (value: number) => void;
 }
 
@@ -17,6 +18,7 @@ const SliderComp: FC<SliderProps> = ({
   displayValue = true,
   min,
   max,
+  disabled = false,
   onChange,
 }) => {
   const sliderValue = useMemo(() => {
@@ -50,7 +52,7 @@ const SliderComp: FC<SliderProps> = ({
   return (
     <div className="d-f fd-c">
       {label && (
-        <SliderLabel>
+        <SliderLabel disabled={disabled}>
           {label}
           {displayValue ? `: ${sliderValue}` : ""}
         </SliderLabel>
@@ -59,6 +61,7 @@ const SliderComp: FC<SliderProps> = ({
         value={[sliderValue]}
         min={min}
         max={max}
+        disabled={disabled}
         className="pos-r d-f ai-c"
         style={cssVariables}
         onValueChange={handleValueChange}
@@ -72,30 +75,7 @@ const SliderComp: FC<SliderProps> = ({
   );
 };
 
-const StyledSlider = styled(Slider.Root)`
-  height: var(--slider-height);
-  user-select: none;
-  touch-action: none;
-`;
-
-const SliderLabel = styled.p`
-  text-transform: uppercase;
-  color: var(--white);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  padding-bottom: var(--padding-2);
-  -webkit-text-size-adjust: 100%;
-`;
-
-export const SliderTrack = styled(Slider.Track)`
-  background-color: var(--dark-gray);
-  height: var(--slider-track-height);
-  border-radius: var(--border-radius-round);
-  cursor: pointer;
-`;
-
 export const SliderRange = styled(Slider.Range)`
-  background-color: var(--primary-color-faded);
   border-radius: var(--border-radius-round);
 `;
 
@@ -105,7 +85,6 @@ export const SliderThumb = styled(Slider.Thumb)`
   width: var(--slider-height);
   height: var(--slider-height);
   border-radius: var(--border-radius-round);
-  background-color: var(--white);
   box-shadow: var(--box-shadow-normal);
 
   :active {
@@ -115,6 +94,37 @@ export const SliderThumb = styled(Slider.Thumb)`
   :focus {
     outline: none;
   }
+`;
+
+const StyledSlider = styled(Slider.Root)`
+  height: var(--slider-height);
+  user-select: none;
+  touch-action: none;
+
+  ${SliderRange} {
+    background-color: ${({ disabled }) =>
+      disabled ? "var(--medium-gray)" : "var(--primary-color-faded)"};
+  }
+  ${SliderThumb} {
+    background-color: ${({ disabled }) =>
+      disabled ? "var(--light-gray)" : "var(--white)"};
+  }
+`;
+
+const SliderLabel = styled.p<{ disabled: boolean }>`
+  text-transform: uppercase;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  padding-bottom: var(--padding-2);
+  -webkit-text-size-adjust: 100%;
+  color: ${({ disabled }) => (disabled ? "var(--light-gray)" : "var(--white)")};
+`;
+
+export const SliderTrack = styled(Slider.Track)`
+  background-color: var(--dark-gray);
+  height: var(--slider-track-height);
+  border-radius: var(--border-radius-round);
+  cursor: pointer;
 `;
 
 export default SliderComp;
