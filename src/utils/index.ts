@@ -9,7 +9,7 @@ export const generateHueGradient = () => {
 };
 
 export const formatSignText = (text: string) => {
-  return text
+  const messages = text
     .toLowerCase()
     .replaceAll("á", "a")
     .replaceAll("ð", "d")
@@ -18,7 +18,15 @@ export const formatSignText = (text: string) => {
     .replaceAll("ó", "o")
     .replaceAll("ú", "u")
     .replaceAll("ý", "y")
-    .replaceAll("ö", "o");
+    .replaceAll("ö", "o")
+    .split("\n")
+    .filter(Boolean);
+
+  if (messages.length === 0) {
+    return "";
+  }
+
+  return messages.length === 1 ? messages[0] : messages;
 };
 
 export const sanitizeMinMaxValue =

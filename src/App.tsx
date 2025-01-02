@@ -126,9 +126,15 @@ const App: FC = () => {
             width={SIGN_DEFAULT_WIDTH}
             fullWidth={signFullWidth}
             colorHue={colorHue}
+            // onBulbLightness
+            // offBulbLightness
+            // frameLightness
+            // backgroundLightness
             hideFrame={hideFrame}
             coloredOffLights={coloredOffLights}
             animationFramesPerUpdate={animationFramesPerUpdate}
+            // staticMode
+            // staticModeDelay
             style={signStyle}
           />
           <MenuButton />

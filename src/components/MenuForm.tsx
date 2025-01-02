@@ -54,7 +54,7 @@ const MenuForm: FC = () => {
             value={signText}
             height={100}
             maxLength={100}
-            placeholder="Sign Text"
+            placeholder="Sign Text (separate by line for multiple messages)"
             onChange={setSignText}
           />
         </div>
