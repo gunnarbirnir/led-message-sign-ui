@@ -6,10 +6,20 @@ import {
   URL_PARAM_KEYS,
   MIN_COLOR_HUE,
   MAX_COLOR_HUE,
+  MIN_ON_BULB_LIGHTNESS,
+  MAX_ON_BULB_LIGHTNESS,
+  MIN_OFF_BULB_LIGHTNESS,
+  MAX_OFF_BULB_LIGHTNESS,
+  MIN_FRAME_LIGHTNESS,
+  MAX_FRAME_LIGHTNESS,
+  MIN_BACKGROUND_LIGHTNESS,
+  MAX_BACKGROUND_LIGHTNESS,
   MIN_SPEED,
   MAX_SPEED,
   MIN_HEIGHT,
   MAX_HEIGHT,
+  MIN_STATIC_MODE_DELAY,
+  MAX_STATIC_MODE_DELAY,
 } from "../constants";
 import { sanitizeMinMaxValue } from "../utils";
 
@@ -19,8 +29,25 @@ const DEFAULT_SIGN_TEXT = "LED Message Sign";
 
 const sanitizeParamVal: Record<string, (val: any) => any> = {
   colorHue: sanitizeMinMaxValue(MIN_COLOR_HUE, MAX_COLOR_HUE),
+  onBulbLightness: sanitizeMinMaxValue(
+    MIN_ON_BULB_LIGHTNESS,
+    MAX_ON_BULB_LIGHTNESS
+  ),
+  offBulbLightness: sanitizeMinMaxValue(
+    MIN_OFF_BULB_LIGHTNESS,
+    MAX_OFF_BULB_LIGHTNESS
+  ),
+  frameLightness: sanitizeMinMaxValue(MIN_FRAME_LIGHTNESS, MAX_FRAME_LIGHTNESS),
+  backgroundLightness: sanitizeMinMaxValue(
+    MIN_BACKGROUND_LIGHTNESS,
+    MAX_BACKGROUND_LIGHTNESS
+  ),
   animationSpeed: sanitizeMinMaxValue(MIN_SPEED, MAX_SPEED),
   signHeight: sanitizeMinMaxValue(MIN_HEIGHT, MAX_HEIGHT),
+  staticModeDelay: sanitizeMinMaxValue(
+    MIN_STATIC_MODE_DELAY,
+    MAX_STATIC_MODE_DELAY
+  ),
 };
 
 const useUrlParams = (initConfig: (config: SignConfigUpdate) => void) => {

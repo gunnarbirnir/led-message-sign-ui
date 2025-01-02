@@ -8,6 +8,16 @@ import {
   MAX_SPEED,
   MIN_HEIGHT,
   MAX_HEIGHT,
+  MIN_ON_BULB_LIGHTNESS,
+  MAX_ON_BULB_LIGHTNESS,
+  MIN_OFF_BULB_LIGHTNESS,
+  MAX_OFF_BULB_LIGHTNESS,
+  MIN_FRAME_LIGHTNESS,
+  MAX_FRAME_LIGHTNESS,
+  MIN_BACKGROUND_LIGHTNESS,
+  MAX_BACKGROUND_LIGHTNESS,
+  MIN_STATIC_MODE_DELAY,
+  MAX_STATIC_MODE_DELAY,
 } from "../constants";
 import { TextArea, HueSlider, Slider, Button, Switch } from "./elements";
 import CopyLinkButton from "./CopyLinkButton";
@@ -17,20 +27,32 @@ const MenuForm: FC = () => {
     menuOpen,
     signText,
     colorHue,
+    onBulbLightness,
+    offBulbLightness,
+    frameLightness,
+    backgroundLightness,
     animationSpeed,
     signHeight,
     fullWidth,
     hideFrame,
     coloredOffLights,
+    staticMode,
+    staticModeDelay,
     setMenuOpen,
     resetSignConfig,
     setSignText,
     setColorHue,
+    setOnBulbLightness,
+    setOffBulbLightness,
+    setFrameLightness,
+    setBackgroundLightness,
     setAnimationSpeed,
     setSignHeight,
     setFullWidth,
     setHideFrame,
     setColoredOffLights,
+    setStaticMode,
+    setStaticModeDelay,
   } = useAppContext();
   const textAreaRef = useFocusSignTextArea(menuOpen);
 
@@ -47,7 +69,7 @@ const MenuForm: FC = () => {
 
   return (
     <StyledMenuForm>
-      <FormMain>
+      <FormLeft>
         <div>
           <TextArea
             ref={textAreaRef}
@@ -59,22 +81,37 @@ const MenuForm: FC = () => {
           />
         </div>
         <HueSlider value={colorHue} onChange={setColorHue} />
+        <SectionLabel>Lightness</SectionLabel>
         <Slider
-          value={animationSpeed}
-          label="Speed"
-          min={MIN_SPEED}
-          max={MAX_SPEED}
-          onChange={setAnimationSpeed}
+          value={onBulbLightness}
+          label="On Bulbs"
+          min={MIN_ON_BULB_LIGHTNESS}
+          max={MAX_ON_BULB_LIGHTNESS}
+          onChange={setOnBulbLightness}
         />
         <Slider
-          value={signHeight}
-          label="Height"
-          min={MIN_HEIGHT}
-          max={MAX_HEIGHT}
-          onChange={setSignHeight}
+          value={offBulbLightness}
+          label="Off Bulbs"
+          min={MIN_OFF_BULB_LIGHTNESS}
+          max={MAX_OFF_BULB_LIGHTNESS}
+          onChange={setOffBulbLightness}
         />
-      </FormMain>
-      <FormOther>
+        <Slider
+          value={frameLightness}
+          label="Frame"
+          min={MIN_FRAME_LIGHTNESS}
+          max={MAX_FRAME_LIGHTNESS}
+          onChange={setFrameLightness}
+        />
+        <Slider
+          value={backgroundLightness}
+          label="Background"
+          min={MIN_BACKGROUND_LIGHTNESS}
+          max={MAX_BACKGROUND_LIGHTNESS}
+          onChange={setBackgroundLightness}
+        />
+      </FormLeft>
+      <FormRight>
         <FullWidthSwitch
           label="Full Width"
           checked={fullWidth}
@@ -90,6 +127,35 @@ const MenuForm: FC = () => {
           checked={coloredOffLights}
           onCheckedChange={setColoredOffLights}
         />
+        <Switch
+          label="Static Mode"
+          checked={staticMode}
+          onCheckedChange={setStaticMode}
+        />
+        <RightSliders>
+          <Slider
+            value={animationSpeed}
+            label="Speed"
+            min={MIN_SPEED}
+            max={MAX_SPEED}
+            onChange={setAnimationSpeed}
+          />
+          <Slider
+            value={signHeight}
+            label="Height"
+            min={MIN_HEIGHT}
+            max={MAX_HEIGHT}
+            onChange={setSignHeight}
+          />
+          <Slider
+            value={staticModeDelay}
+            label="Static Mode Delay"
+            min={MIN_STATIC_MODE_DELAY}
+            max={MAX_STATIC_MODE_DELAY}
+            disabled={!staticMode}
+            onChange={setStaticModeDelay}
+          />
+        </RightSliders>
         <FormButtons>
           <Button onClick={handleCloseMenu} className="apply-button">
             Apply
@@ -99,32 +165,46 @@ const MenuForm: FC = () => {
             Reset
           </Button>
         </FormButtons>
-      </FormOther>
+      </FormRight>
     </StyledMenuForm>
   );
 };
 
 const StyledMenuForm = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: var(--padding-4);
 
-  @media (max-width: ${MEDIA_QUERY.SIGN_WIDTH}) {
-    grid-template-columns: 1fr 1fr;
-  }
   @media (max-width: ${MEDIA_QUERY.MOBILE}) {
     grid-template-columns: 1fr;
     gap: var(--padding-3);
   }
 `;
 
-const FormMain = styled.div`
+const FormLeft = styled.div`
   > * {
     padding-bottom: var(--padding-3);
   }
 `;
 
-const FormOther = styled.div`
+const SectionLabel = styled.p`
+  text-transform: uppercase;
+  color: var(--light-gray);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  padding-bottom: var(--padding-3);
+  -webkit-text-size-adjust: 100%;
+`;
+
+const FormRight = styled.div`
+  > * {
+    padding-bottom: var(--padding-3);
+  }
+`;
+
+const RightSliders = styled.div`
+  padding-top: var(--padding-3);
+  padding-bottom: var(--padding-3);
   > * {
     padding-bottom: var(--padding-3);
   }
@@ -139,7 +219,6 @@ const FullWidthSwitch = styled(Switch)`
 const FormButtons = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  padding-top: var(--padding-3);
   gap: var(--padding-3);
   .apply-button {
     display: none;
