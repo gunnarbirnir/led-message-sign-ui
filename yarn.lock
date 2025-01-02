@@ -1316,10 +1316,10 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.57.0.tgz#a5417ae8427873f1dd08b70b3574b453e67b5f7f"
   integrity sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==
 
-"@gunnarbirnir/led-message-sign@0.2.2":
-  version "0.2.2"
-  resolved "https://npm.pkg.github.com/download/@gunnarbirnir/led-message-sign/0.2.2/6f45ce62ca19c1e58e41f09986e94c5ef58df9b0#6f45ce62ca19c1e58e41f09986e94c5ef58df9b0"
-  integrity sha512-cv9UNY9vsPZ9oim3AS8zwh2ogJdGQODPgGv3SSsIhGqB4MbPlBRVf1OIJcx8QmfJPjzYCFQCA0l3atmgCUQ7mQ==
+"@gunnarbirnir/led-message-sign@0.2.6":
+  version "0.2.6"
+  resolved "https://npm.pkg.github.com/download/@gunnarbirnir/led-message-sign/0.2.6/7d4ef78e273dcf403214f9c4b13a0fda4ab642c9#7d4ef78e273dcf403214f9c4b13a0fda4ab642c9"
+  integrity sha512-IDx72OUENStIZiEh2LDixdDhsE5RpTRFk9EVCUw/BXB3za8mPTaFmKwl/hvkFpnwaWnR4wzFZqNAcsjYIikwEQ==
 
 "@humanwhocodes/config-array@^0.11.14":
   version "0.11.14"
